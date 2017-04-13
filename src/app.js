@@ -1,5 +1,16 @@
-import CourseGreeter from './course-greeter';
+import OrgChart from "./main/org-chart"
 
-const greeter = new CourseGreeter('My Assignment');
+fetch('./data/contacts.json')
+  .then((res) => {
 
-document.getElementById('greeting-msg').innerHTML = greeter.getGreetingMsg();
+      res.json()
+        .then((data) => {
+            let orgChart = new OrgChart(data);
+            console.log(orgChart);
+        })
+
+  })
+  .catch(function (err) {
+      console.log('Data is invalid! Cannot render the chart!', err);
+  });
+
