@@ -1,4 +1,5 @@
 import UserCard from "./model/user-card"
+import { createCardContainer, createCardContent, createCardElement,} from "./dom/dom-util"
 
 export default class OrgChart {
 
@@ -36,8 +37,41 @@ export default class OrgChart {
             .map(user => UserCard.mapRawDataToUserCard(user))
     }
 
-    render() {
+    createRootNode() {
+        if (this._rootCard === undefined) {
+            return;
+        }
+        let rootContainer = createCardContainer();
+        let rootCardElement = createCardElement(this._rootCard._id, rootContainer);
 
+        rootCardElement.appendChild(createCardContent(this._rootCard._userCardInfo.getEmployeeId()));
+        rootCardElement.appendChild(this.buildNodeByCard(this._rootCard));
+
+        return rootContainer;
+    }
+
+    buildNodeByCard(card) {
+        if (card.getSubCards().length === 0) {
+            return;
+        }
+
+        let container = createCardContainer();
+        card.getSubCards()
+            .forEach(subCard => {
+                let card = createCardElement(subCard._id, container);
+                card.appendChild(createCardContent(subCard._userCardInfo.getEmployeeId()));
+
+                let subCards = this.buildNodeByCard(subCard);
+                if (subCards !== undefined) {
+                    card.appendChild(subCards);
+                }
+            });
+
+        return container;
+    }
+
+    render() {
+        return this.createRootNode();
     }
 
 }

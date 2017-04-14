@@ -6,7 +6,8 @@ fetch('./data/contacts.json')
       res.json()
         .then((data) => {
             let orgChart = new OrgChart(data);
-            console.log(orgChart);
+
+            document.getElementById("orgCharts").appendChild(orgChart.render());
         })
 
   })
