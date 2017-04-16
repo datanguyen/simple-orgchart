@@ -16,3 +16,7 @@ export function createCardContent(cardContentId) {
 
     return a;
 }
+
+export function createContainerByTagName(tagName) {
+    return document.createElement(tagName);
+}

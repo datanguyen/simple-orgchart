@@ -16,20 +16,14 @@
     -ms-flex: 1 100%;
 }
 
-.org-chart {
-    display: flex;
-    margin: auto;
-    width: auto;
-}
-
-.org-chart  ul {
+.org-chart ul {
     display: flex;
     flex-wrap: nowrap;
     padding-top: 20px;
     position: relative;
 }
 
-.org-chart  li {
+.org-chart li {
     float: left;
     text-align: center;
     list-style-type: none;
@@ -40,7 +34,7 @@
 .org-chart  li::before, .org-chart li::after {
     content: '';
     position: absolute;
-    border-top: 1px solid #ccc;
+    border-top: 1px solid black;
     top: 0;
     right: 50%;
     width: 50%;
@@ -50,7 +44,7 @@
 .org-chart li::after {
     right: auto;
     left: 50%;
-    border-left: 1px solid #ccc;
+    border-left: 1px solid black;
 }
 
 .org-chart li:only-child::after, .org-chart li:only-child::before {
@@ -66,7 +60,7 @@
 }
 
 .org-chart li:last-child:before {
-    border-right: 1px solid #ccc;
+    border-right: 1px solid black;
     border-radius: 0 5px 0 0;
     -webkit-border-radius: 0 5px 0 0;
     -moz-border-radius: 0 5px 0 0;
@@ -83,34 +77,17 @@
     position: absolute;
     top: 0;
     left: 50%;
-    border-left: 1px solid #ccc;
+    border-left: 1px solid black;
     width: 0;
     height: 20px;
     margin-left: -1px;
 }
 
 .org-chart li a {
-    border: 1px solid #ccc;
-    padding: 30px 50px;
-    text-decoration: none;
-    color: #666;
-    font-family: arial, verdana, tahoma, serif;
-    font-size: 11px;
+    border: 1px solid black;
     display: inline-block;
     border-radius: 5px;
-    -webkit-border-radius: 5px;
-    -moz-border-radius: 5px;
-    transition: all 0.5s;
-    -webkit-transition: all 0.5s;
-    -moz-transition: all 0.5s;
-}
-
-.org-chart li a:hover, .org-chart li a:hover+ul li a {
-    background: #c8e4f8;
-    color: #000;
-    border: 1px solid #94a0b4;
-}
-/*Connector styles on hover*/
-.org-chart  li a:hover+ul li::after, .org-chart  li a:hover+ul li::before, .org-chart  li a:hover+ul::before, .org-chart  li a:hover+ul ul::before {
-    border-color: #94a0b4;
+    width: 150px;
+    height: 50px;
+    text-align: left;
 }

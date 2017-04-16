@@ -1,5 +1,8 @@
 import UserCard from "./model/user-card"
 import { createCardContainer, createCardContent, createCardElement,} from "./dom/dom-util"
+import CardContainerDOM from "./dom/card-container-dom";
+import CardElementDOM from "./dom/card-element-dom"
+import CardContentDOM from "./dom/card-content-dom"
 
 export default class OrgChart {
 
@@ -44,8 +47,8 @@ export default class OrgChart {
         let rootContainer = createCardContainer();
         let rootCardElement = createCardElement(this._rootCard._id, rootContainer);
 
-        rootCardElement.appendChild(createCardContent(this._rootCard._userCardInfo.getEmployeeId()));
-        rootCardElement.appendChild(this.buildNodeByCard(this._rootCard));
+        rootCardElement.appendChild(createCardContent(this._rootCard._userCardInfo.getUsername()));
+        rootCardElement.appendChild(this.buildNodeByCard(this._rootCard).render());
 
         return rootContainer;
     }
@@ -55,19 +58,11 @@ export default class OrgChart {
             return;
         }
 
-        let container = createCardContainer();
-        card.getSubCards()
-            .forEach(subCard => {
-                let card = createCardElement(subCard._id, container);
-                card.appendChild(createCardContent(subCard._userCardInfo.getEmployeeId()));
-
-                let subCards = this.buildNodeByCard(subCard);
-                if (subCards !== undefined) {
-                    card.appendChild(subCards);
-                }
-            });
-
-        return container;
+        return new CardContainerDOM(
+            card.getSubCards()
+                .map(subCard => new CardElementDOM(subCard._id, new CardContentDOM(subCard),
+                    this.buildNodeByCard(subCard)))
+        );
     }
 
     render() {

@@ -2,8 +2,7 @@
 export default class UserInfo {
 
     constructor(firstName, lastName, title, department, project, avatar, employeeId) {
-        this._firstName = firstName;
-        this._lastName = lastName;
+        this._username = firstName + " " + lastName;
         this._title = title;
         this._department = department;
         this._project = project;
@@ -11,20 +10,12 @@ export default class UserInfo {
         this._employeeId = employeeId;
     }
 
-    getFirstName() {
-        return this._firstName;
+    getUsername() {
+        return this._username;
     }
 
-    setFirstName(value) {
-        this._firstName = value;
-    }
-
-    getLastName() {
-        return this._lastName;
-    }
-
-    setLastName(value) {
-        this._lastName = value;
+    setUsername(value) {
+        this._username = value;
     }
 
     getTitle() {
