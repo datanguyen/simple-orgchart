@@ -30,6 +30,10 @@ export default class UserCard {
         return this._subCards;
     }
 
+    getParent() {
+        return this._parent;
+    }
+
     static mapRawDataToUserCard(user) {
         return new UserCard(user.id, user.firstName, user.lastName, user.title, user.department,
           user.project, user.avatar, user.employeeId)

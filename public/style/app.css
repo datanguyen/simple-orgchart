@@ -1,7 +1,13 @@
+@import "org-chart.css";
+@import "card.css";
 
 * {
     margin: 0;
     padding: 0;
+}
+
+body {
+    height: 100%;
 }
 
 .container {
@@ -16,78 +22,25 @@
     -ms-flex: 1 100%;
 }
 
-.org-chart ul {
-    display: flex;
-    flex-wrap: nowrap;
-    padding-top: 20px;
-    position: relative;
+.org-chart {
+    width: 100%;
+    overflow-x: scroll;
 }
 
-.org-chart li {
-    float: left;
-    text-align: center;
-    list-style-type: none;
-    position: relative;
-    padding: 20px 5px 0 5px;
+.breadscumbs {
+    border: 1px solid #ccc;
+    background-color: #efefef;
+    height: 20%;
+    font-size: 20px;
+    padding: 10px;
 }
 
-.org-chart  li::before, .org-chart li::after {
-    content: '';
-    position: absolute;
-    border-top: 1px solid black;
-    top: 0;
-    right: 50%;
-    width: 50%;
-    height: 20px;
-}
-
-.org-chart li::after {
-    right: auto;
-    left: 50%;
-    border-left: 1px solid black;
-}
-
-.org-chart li:only-child::after, .org-chart li:only-child::before {
-    display: none;
-}
-
-.org-chart  li:only-child {
-    padding-top: 0;
-}
-
-.org-chart li:first-child::before, .org-chart li:last-child:after {
-    border: 0 none;
-}
-
-.org-chart li:last-child:before {
-    border-right: 1px solid black;
-    border-radius: 0 5px 0 0;
-    -webkit-border-radius: 0 5px 0 0;
-    -moz-border-radius: 0 5px 0 0;
-}
-
-.org-chart li:first-child::after {
-    border-radius: 5px 0 0 0;
-    -webkit-border-radius: 5px 0 0 0;
-    -moz-border-radius: 5px 0 0 0;
-}
-
-.org-chart ul ul::before {
-    content:'';
-    position: absolute;
-    top: 0;
-    left: 50%;
-    border-left: 1px solid black;
-    width: 0;
-    height: 20px;
-    margin-left: -1px;
-}
-
-.org-chart li a {
-    border: 1px solid black;
+#root-path {
     display: inline-block;
-    border-radius: 5px;
-    width: 150px;
-    height: 50px;
-    text-align: left;
+    color: #14B1E7;
+}
+
+.font-icon {
+    color: #14B1E7;
+    font-size: 30px;
 }

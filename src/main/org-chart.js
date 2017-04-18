@@ -2,7 +2,7 @@ import UserCard from "./model/user-card"
 import { createCardContainer, createCardContent, createCardElement,} from "./dom/dom-util"
 import CardContainerDOM from "./dom/card-container-dom";
 import CardElementDOM from "./dom/card-element-dom"
-import CardContentDOM from "./dom/card-content-dom"
+import CardBoxDOM from "./dom/card-box-dom"
 
 export default class OrgChart {
 
@@ -60,12 +60,32 @@ export default class OrgChart {
 
         return new CardContainerDOM(
             card.getSubCards()
-                .map(subCard => new CardElementDOM(subCard._id, new CardContentDOM(subCard),
+                .map(subCard => new CardElementDOM(subCard._id, new CardBoxDOM(subCard),
                     this.buildNodeByCard(subCard)))
         );
     }
 
+    createBreadscumbs() {
+        let superRootContainerDOM = document.getElementById("root-path");
+        let superRootName = "Vu Lam";
+
+        if (superRootContainerDOM === undefined) {
+            return;
+        }
+        let superiorCard = this._rootCard.getParent();
+
+        if (superiorCard !== undefined) {
+            superRootName = superiorCard._userCardInfo.getUsername();
+            superRootContainerDOM.id = superiorCard._id;
+        }
+
+        superRootContainerDOM.textContent = `${superRootName}`;
+        let textNode = document.createTextNode(` / ${this._rootCard._userCardInfo.getUsername()}`);
+        superRootContainerDOM.parentNode.appendChild(textNode);
+    }
+
     render() {
+        this.createBreadscumbs();
         return this.createRootNode();
     }
 
