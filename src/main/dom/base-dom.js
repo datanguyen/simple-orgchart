@@ -2,10 +2,10 @@
 export default class BaseDOM {
 
     constructor(containerDOM) {
-        this._containerDOM = containerDOM;
+        this.containerDOM = containerDOM;
     }
 
     render() {
-        return this._containerDOM;
+        return this.containerDOM;
     }
 }

@@ -4,11 +4,11 @@ import {createContainerByTagName} from "./dom-util"
 
 export default class CardContainerDOM extends BaseDOM {
 
-    constructor(cardElementDOMs) {
+    constructor(cardElementDOMs = []) {
         super(createContainerByTagName("ul"));
 
-        this._cardElementDOMs = cardElementDOMs || [];
-        this._cardElementDOMs.forEach((cardElementDOMs) => this._containerDOM.appendChild(cardElementDOMs.render()));
+        this.cardElementDOMs = cardElementDOMs;
+        this.cardElementDOMs.forEach(cardElementDOMs => this.containerDOM.appendChild(cardElementDOMs.render()));
     }
 
 }

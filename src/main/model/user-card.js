@@ -4,17 +4,17 @@ import UserInfo from "./user-info"
 export default class UserCard {
 
     constructor(id, ...userInfo) {
-        this._userCardInfo = new UserInfo(...userInfo);
-        this._id = id;
-        this._subCards = [];
+        this.userCardInfo = new UserInfo(...userInfo);
+        this.id = id;
+        this.subCards = [];
     }
 
     addParent(parent) {
-        this._parent = parent;
+        this.parent = parent;
     }
 
     addSubCard(subCard) {
-        this._subCards.push(subCard)
+        this.subCards.push(subCard)
     }
 
     addSubCards(subCards) {
@@ -22,11 +22,11 @@ export default class UserCard {
     }
 
     getSubCards() {
-        return this._subCards;
+        return this.subCards;
     }
 
     getParent() {
-        return this._parent;
+        return this.parent;
     }
 
     static mapRawDataToUserCard(user) {

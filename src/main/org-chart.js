@@ -1,21 +1,25 @@
 import UserCard from "./model/user-card"
-import { createCardContainer, createCardContent, createCardElement,} from "./dom/dom-util"
 import CardContainerDOM from "./dom/card-container-dom";
 import CardElementDOM from "./dom/card-element-dom"
 import CardBoxDOM from "./dom/card-box-dom"
+import {
+    createCardContainer,
+    createCardContent,
+    createCardElement
+} from "./dom/dom-util"
 
 export default class OrgChart {
 
     constructor(data) {
-        this._rawData = data;
-        this._rootCard = this.createRootCard();
-        this._cards = [];
-        this.buildCardTree(this._rootCard, this._cards);
+        this.rawData = data;
+        this.rootCard = this.createRootCard();
+        this.cards = [];
+        this.buildCardTree(this.rootCard, this.cards);
     }
 
     createRootCard() {
-        return UserCard.mapRawDataToUserCard(this._rawData
-            .find((user) => user.superiorId === undefined));
+        return UserCard.mapRawDataToUserCard(this.rawData
+            .find(user => user.superiorId === undefined));
     }
 
     buildCardTree(card, cards) {
@@ -24,29 +28,29 @@ export default class OrgChart {
         }
 
         cards.push(card);
-        card.addSubCards(this.getSubCardsById(card._id));
+        card.addSubCards(this.getSubCardsById(card.id));
         card.getSubCards()
-            .forEach(subCard => {
+            .forEach((subCard) => {
                 subCard.addParent(card);
                 this.buildCardTree(subCard, cards);
             })
     }
 
     getSubCardsById(cardId) {
-        return this._rawData
+        return this.rawData
             .filter(user => user.superiorId === cardId)
             .map(user => UserCard.mapRawDataToUserCard(user))
     }
 
     createRootNode() {
-        if (this._rootCard === undefined) {
+        if (this.rootCard === undefined) {
             return;
         }
         let rootContainer = createCardContainer();
-        let rootCardElement = createCardElement(this._rootCard._id, rootContainer);
+        let rootCardElement = createCardElement(this.rootCard.id, rootContainer);
 
-        rootCardElement.appendChild(createCardContent(this._rootCard._userCardInfo.getUsername()));
-        rootCardElement.appendChild(this.buildNodeByCard(this._rootCard).render());
+        rootCardElement.appendChild(createCardContent(this.rootCard.userCardInfo.getUsername()));
+        rootCardElement.appendChild(this.buildNodeByCard(this.rootCard).render());
 
         return rootContainer;
     }
@@ -58,7 +62,7 @@ export default class OrgChart {
 
         return new CardContainerDOM(
             card.getSubCards()
-                .map(subCard => new CardElementDOM(subCard._id, new CardBoxDOM(subCard),
+                .map(subCard => new CardElementDOM(subCard.id, new CardBoxDOM(subCard),
                     this.buildNodeByCard(subCard)))
         );
     }
@@ -70,15 +74,15 @@ export default class OrgChart {
         if (superRootContainerDOM === undefined) {
             return;
         }
-        let superiorCard = this._rootCard.getParent();
+        let superiorCard = this.rootCard.getParent();
 
         if (superiorCard !== undefined) {
-            superRootName = superiorCard._userCardInfo.getUsername();
-            superRootContainerDOM.id = superiorCard._id;
+            superRootName = superiorCard.userCardInfo.getUsername();
+            superRootContainerDOM.id = superiorCard.id;
         }
 
         superRootContainerDOM.textContent = `${superRootName}`;
-        let textNode = document.createTextNode(` / ${this._rootCard._userCardInfo.getUsername()}`);
+        let textNode = document.createTextNode(` / ${this.rootCard.userCardInfo.getUsername()}`);
         superRootContainerDOM.parentNode.appendChild(textNode);
     }
 

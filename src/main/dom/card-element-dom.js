@@ -6,11 +6,11 @@ export default class CardElementDOM extends BaseDOM {
     constructor(id, elementContentDOM, subCardContainerDOM) {
         super(createContainerByTagName("li"));
 
-        this._containerDOM.id = id;
-        this._containerDOM.appendChild(elementContentDOM.render());
+        this.containerDOM.id = id;
+        this.containerDOM.appendChild(elementContentDOM.render());
 
         if (subCardContainerDOM !== undefined) {
-            this._containerDOM.appendChild(subCardContainerDOM.render())
+            this.containerDOM.appendChild(subCardContainerDOM.render())
         }
     }
 }

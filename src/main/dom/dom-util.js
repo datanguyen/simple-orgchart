@@ -1,28 +1,24 @@
-export function createCardContainer() {
-    return document.createElement("ul");
-}
+export const createCardContainer = () => document.createElement("ul");
 
-export function createCardElement(cardId, parentNode) {
+export const createCardElement = (cardId, parentNode) => {
     let cardElement = document.createElement("li");
     cardElement.id = cardId;
     parentNode.appendChild(cardElement);
 
     return cardElement;
-}
+};
 
-export function createCardContent(cardContentId) {
+export const createCardContent = (cardContentId) => {
     let a = document.createElement("section");
     a.className = "card";
     a.appendChild(document.createTextNode(cardContentId));
 
     return a;
-}
+};
 
-export function createContainerByTagName(tagName) {
-    return document.createElement(tagName);
-}
+export const createContainerByTagName = tagName => document.createElement(tagName);
 
-export function createCommonContainer(className = "null") {
+export const createCommonContainer = (className = "null") => {
     let divDOM = createContainerByTagName("div");
 
     if (className !== "null") {
@@ -30,12 +26,46 @@ export function createCommonContainer(className = "null") {
     }
 
     return divDOM;
-}
+};
 
-export function createIcon(className = "null") {
+export const createIcon = (className = "null") => {
     let iconDOM = document.createElement("span");
     iconDOM.className = className;
     iconDOM.setAttribute("aria-hidden", "true");
 
     return iconDOM;
-}
+};
+
+export const createCardIcons = () => {
+    return {
+        plusIcon: createIcon("fa fa-plus-circle"),
+        minusIcon: createIcon("fa fa-minus-circle"),
+        editIcon: createIcon("fa fa-pencil-square-o"),
+        createPeerCardIcon: createIcon("fa fa-arrow-circle-right"),
+        createSubCardIcon: createIcon("fa fa-arrow-circle-down"),
+        deleteIcon: createIcon("fa fa-trash-o")
+    }
+};
+
+export const createCardInfoNodes = () => {
+    let userName = document.createElement("h3");
+    userName.className = "username";
+
+    let department = document.createElement("h4");
+    department.className = "department";
+
+    let employeeId = document.createElement("a");
+    employeeId.className = "employeeId";
+    employeeId.setAttribute("href", "#");
+
+    let prefix = document.createElement("i");
+    prefix.className = "kms-prefix";
+    prefix.textContent = "@kms-technology.com";
+
+    return {
+        userName,
+        department,
+        employeeId,
+        prefix
+    }
+};

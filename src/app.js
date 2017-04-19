@@ -18,9 +18,8 @@ if (typeof (Storage) !== "undefined") {
                     })
 
             })
-
             .catch((err) => {
-                orgChartDOM.innerHTML = "Your browser does not support Fetch API" + err;
+                orgChartDOM.innerHTML = `Your browser does not support Fetch API: ${err}`;
             });
     }
 

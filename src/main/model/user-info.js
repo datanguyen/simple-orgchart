@@ -3,81 +3,81 @@ export default class UserInfo {
 
     constructor(firstName = "fullname...", lastName = "", title = "title...", department = "department...",
                 project = "", avatar = "avatar.png", employeeId = "employeeId...") {
-        this._firstName = firstName;
-        this._lastName = lastName;
-        this._title = title;
-        this._department = department;
-        this._project = project;
-        this._avatar = avatar;
-        this._employeeId = employeeId;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.title = title;
+        this.department = department;
+        this.project = project;
+        this.avatar = avatar;
+        this.employeeId = employeeId;
     }
 
 
     getFirstName() {
-        return this._firstName;
+        return this.firstName;
     }
 
     setFirstName(value) {
-        this._firstName = value;
+        this.firstName = value;
     }
 
     getLastName() {
-        return this._lastName;
+        return this.lastName;
     }
 
     setLastName(value) {
-        this._lastName = value;
+        this.lastName = value;
     }
 
     getTitle() {
-        return this._title;
+        return this.title;
     }
 
     setTitle(value) {
-        this._title = value;
+        this.title = value;
     }
 
     getDepartment() {
-        return this._department;
+        return this.department;
     }
 
     setDepartment(value) {
-        this._department = value;
+        this.department = value;
     }
 
     getProject() {
-        return this._project;
+        return this.project;
     }
 
     setProject(value) {
-        this._project = value;
+        this.project = value;
     }
 
     getAvatar() {
-        return this._avatar;
+        return this.avatar;
     }
 
     setAvatar(value) {
-        this._avatar = value;
+        this.avatar = value;
     }
 
     getEmployeeId() {
-        return this._employeeId;
+        return this.employeeId;
     }
 
     setEmployeeId(value) {
-        this._employeeId = value;
+        this.employeeId = value;
     }
 
     getSuperiorId() {
-        return this._superiorId;
+        return this.superiorId;
     }
 
     setParentId(value) {
-        this._superiorId = value;
+        this.superiorId = value;
     }
 
     getUsername() {
-        return this._firstName + " " + this._lastName;
+        return `${this.firstName} ${this.lastName}`;
     }
 }
