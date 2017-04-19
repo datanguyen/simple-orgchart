@@ -21,11 +21,6 @@ export default class UserCard {
         subCards.forEach(subCard => this.addSubCard(subCard))
     }
 
-    removeSubCard(subCardId) {
-        let userCardId = this._subCards.indexOf(this._subCards.filter(card => card.id === subCardId));
-
-    }
-
     getSubCards() {
         return this._subCards;
     }

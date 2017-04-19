@@ -13,7 +13,7 @@
 }
 
 .card .avatar {
-    width: auto;
+    max-width: 65px;
     margin: 10px;
 }
 
@@ -27,8 +27,10 @@
 }
 
 .card .info {
-    width: auto;
-    margin: 5px;
+    max-width: 150px;
+    max-height: 100px;
+    margin: 2px;
+    overflow: hidden;
 }
 
 .card .info > * {

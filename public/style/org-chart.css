@@ -2,7 +2,7 @@
 .org-chart {
     width: 100%;
     overflow-x: scroll;
-    overflow-y: auto;
+    padding-bottom: 20px;
 }
 
 .org-chart ul {

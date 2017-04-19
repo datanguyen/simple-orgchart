@@ -1,8 +1,10 @@
 
 export default class UserInfo {
 
-    constructor(firstName, lastName, title, department, project, avatar, employeeId) {
-        this._username = firstName + " " + lastName;
+    constructor(firstName = "fullname...", lastName = "", title = "title...", department = "department...",
+                project = "", avatar = "avatar.png", employeeId = "employeeId...") {
+        this._firstName = firstName;
+        this._lastName = lastName;
         this._title = title;
         this._department = department;
         this._project = project;
@@ -10,12 +12,21 @@ export default class UserInfo {
         this._employeeId = employeeId;
     }
 
-    getUsername() {
-        return this._username;
+
+    getFirstName() {
+        return this._firstName;
     }
 
-    setUsername(value) {
-        this._username = value;
+    setFirstName(value) {
+        this._firstName = value;
+    }
+
+    getLastName() {
+        return this._lastName;
+    }
+
+    setLastName(value) {
+        this._lastName = value;
     }
 
     getTitle() {
@@ -56,5 +67,17 @@ export default class UserInfo {
 
     setEmployeeId(value) {
         this._employeeId = value;
+    }
+
+    getSuperiorId() {
+        return this._superiorId;
+    }
+
+    setParentId(value) {
+        this._superiorId = value;
+    }
+
+    getUsername() {
+        return this._firstName + " " + this._lastName;
     }
 }

@@ -2,55 +2,19 @@ import BaseDOM from "./base-dom"
 import DOMActions from "../action/dom-actions"
 import {createContainerByTagName, createCommonContainer, createIcon} from "./dom-util"
 
-export default class CardContent extends BaseDOM {
+export default class CardBox extends BaseDOM {
 
     constructor(card) {
         super(createContainerByTagName("section"));
         this._containerDOM.className = "card";
 
-        this.card = card;
+        this._card = card;
+        this._domActions = new DOMActions(this._card._id);
+
         this._containerDOM.appendChild(this.buildAvatarNode());
         this._containerDOM.appendChild(this.buildInfoNode());
         this._containerDOM.appendChild(this.buildActionNode());
         this._containerDOM.appendChild(this.buildToggleNode());
-
-
-        // this._containerDOM.addEventListener("click", () => {
-        //
-        //     this._containerDOM.style.backgroundColor = "#f4f2f2";
-        //
-        //     let cardContainer = document.getElementById(card._id);
-        //
-        //     let parent = cardContainer.parentNode;
-        //
-        //     let li = document.createElement("li");
-        //     let section = document.createElement("section");
-        //
-        //     section.className = "element";
-        //
-        //     li.appendChild(section);
-        //
-        //     let sib = cardContainer.nextElementSibling;
-        //
-        //
-        //     if (sib === null) {
-        //         parent.appendChild(li);
-        //     } else {
-        //         parent.insertBefore(li, sib);
-        //     }
-        //
-        //
-        //
-        //
-        //     document.body.addEventListener("click", (e) => {
-        //         let target = e.target;
-        //
-        //         if (target !== this._containerDOM) {
-        //             this._containerDOM.style.backgroundColor = "white";
-        //         }
-        //     })
-        //
-        // })
 
         this._containerDOM.addEventListener("click", () => {
             this._containerDOM.style.backgroundColor = "#f4f2f2";
@@ -75,7 +39,7 @@ export default class CardContent extends BaseDOM {
         let avaContainer = createCommonContainer("avatar");
 
         let avatar = document.createElement("img");
-        avatar.src = `images/${this.card._userCardInfo.getAvatar()}`;
+        avatar.src = `images/${this._card._userCardInfo.getAvatar()}`;
         avaContainer.appendChild(avatar);
 
         return avaContainer;
@@ -86,16 +50,16 @@ export default class CardContent extends BaseDOM {
 
         let userName = document.createElement("h3");
         userName.className = "username";
-        userName.textContent = this.card._userCardInfo.getUsername();
+        userName.textContent = this._card._userCardInfo.getUsername();
 
         let department = document.createElement("h4");
         department.className = "department";
-        department.textContent = this.card._userCardInfo.getDepartment();
+        department.textContent = this._card._userCardInfo.getDepartment();
 
         let employeeId = document.createElement("a");
         employeeId.className = "employeeId";
         employeeId.setAttribute("href", "#");
-        employeeId.textContent = this.card._userCardInfo.getEmployeeId();
+        employeeId.textContent = this._card._userCardInfo.getEmployeeId();
 
         let prefix = document.createElement("i");
         prefix.className = "kms-prefix";
@@ -116,10 +80,13 @@ export default class CardContent extends BaseDOM {
         let createSubCardIcon = createIcon("fa fa-arrow-circle-down");
         let deleteIcon = createIcon("fa fa-trash-o");
 
+        editIcon.addEventListener("click", () => this._domActions.editCardInfo());
+        createPeerCardIcon.addEventListener("click", () => this._domActions.addPeerCard());
+        createSubCardIcon.addEventListener("click", () => this._domActions.addSubCard());
         deleteIcon.addEventListener("click", () => {
             let confirm = window.confirm("Are your sure to delete this card ?");
             if (confirm === true) {
-                DOMActions.deleteCard(this.card._id);
+                this._domActions.deleteCard();
             }
         });
 
@@ -136,14 +103,14 @@ export default class CardContent extends BaseDOM {
         let plusIcon = createIcon("fa fa-plus-circle");
         let minusIcon = createIcon("fa fa-minus-circle");
 
-        if (this.card.getSubCards().length === 0) {
+        if (this._card.getSubCards().length === 0) {
             minusIcon.style.display = "none";
         } else {
             plusIcon.style.display = "none";
         }
 
         minusIcon.addEventListener("click", () => {
-            let card = document.getElementById(this.card._id);
+            let card = document.getElementById(this._card._id);
             let subCards = card.lastChild;
 
             subCards.style.display = "none";
