@@ -14,9 +14,8 @@ export default class OrgChart {
     }
 
     createRootCard() {
-        return this._rawData
-            .filter(user => user.superiorId === undefined)
-            .map(user => UserCard.mapRawDataToUserCard(user))[0]
+        return UserCard.mapRawDataToUserCard(this._rawData
+            .find((user) => user.superiorId === undefined));
     }
 
     buildCardTree(card, cards) {
@@ -31,7 +30,6 @@ export default class OrgChart {
                 subCard.addParent(card);
                 this.buildCardTree(subCard, cards);
             })
-
     }
 
     getSubCardsById(cardId) {

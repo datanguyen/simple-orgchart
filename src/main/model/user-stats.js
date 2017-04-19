@@ -1,4 +1,3 @@
-
 const userData = sessionStorage.rawData !== undefined ? JSON.parse(sessionStorage.rawData) : [];
 
 export default class UserStats {

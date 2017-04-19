@@ -1,6 +1,7 @@
 import BaseDOM from "./base-dom"
-import UserStats from "../model/user-stats"
+import DOMActions from "../action/dom-actions"
 import {createContainerByTagName, createCommonContainer, createIcon} from "./dom-util"
+
 export default class CardContent extends BaseDOM {
 
     constructor(card) {
@@ -70,8 +71,6 @@ export default class CardContent extends BaseDOM {
 
     }
 
-
-
     buildAvatarNode() {
         let avaContainer = createCommonContainer("avatar");
 
@@ -115,12 +114,19 @@ export default class CardContent extends BaseDOM {
         let editIcon = createIcon("fa fa-pencil-square-o");
         let createPeerCardIcon = createIcon("fa fa-arrow-circle-right");
         let createSubCardIcon = createIcon("fa fa-arrow-circle-down");
-        let deteleIcon = createIcon("fa fa-times");
+        let deleteIcon = createIcon("fa fa-trash-o");
+
+        deleteIcon.addEventListener("click", () => {
+            let confirm = window.confirm("Are your sure to delete this card ?");
+            if (confirm === true) {
+                DOMActions.deleteCard(this.card._id);
+            }
+        });
 
         actionNode.appendChild(editIcon);
         actionNode.appendChild(createPeerCardIcon);
         actionNode.appendChild(createSubCardIcon);
-        actionNode.appendChild(deteleIcon);
+        actionNode.appendChild(deleteIcon);
 
         return actionNode;
     }

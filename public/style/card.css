@@ -53,15 +53,20 @@
 
 .card .action {
     float: right;
-    width: 15%;
+    width: 10%;
     display: none;
 }
 
 .card .action > * {
     display: block;
     font-size: 20px;
-    margin: 5px;
+    margin: 4px;
     color: #727070;
+}
+
+.card .action > *:hover {
+    color: orangered;
+    cursor: pointer;
 }
 
 .card .toggle {
