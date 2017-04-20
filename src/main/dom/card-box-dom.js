@@ -17,28 +17,36 @@ export default class CardBox extends BaseDOM {
         this.card = card;
         this.domActions = new DOMActions(this.card.id);
 
-        this.containerDOM.appendChild(this.buildAvatarNode());
-        this.containerDOM.appendChild(this.buildInfoNode());
-        this.containerDOM.appendChild(this.buildActionNode());
-        this.containerDOM.appendChild(this.buildToggleNode());
+
+
+        this.childrenNode = {
+            avatarNode: this.buildAvatarNode(),
+            infoNode: this.buildInfoNode(),
+            actionNode: this.buildActionNode(),
+            toggleNode: this.buildToggleNode()
+        }
+
+    }
+
+    render() {
+        this.containerDOM.appendChild(this.childrenNode.avatarNode);
+        this.containerDOM.appendChild(this.childrenNode.infoNode);
+        this.containerDOM.appendChild(this.childrenNode.actionNode);
+        this.containerDOM.appendChild(this.childrenNode.toggleNode);
 
         this.containerDOM.addEventListener("click", () => {
             this.containerDOM.style.backgroundColor = "#f4f2f2";
+            this.childrenNode.actionNode.style.display = "initial";
 
-            let actionDOM = Array.from(this.containerDOM.childNodes)
-                .filter(children => children.className === "action")[0];
-
-            actionDOM.style.display = "initial";
             document.body.addEventListener("click", (e) => {
-                let target = e.target;
-                if (target !== this.containerDOM) {
+                if (this.childrenNode.toggleNode.contains(e.target) || !this.containerDOM.contains(e.target)) {
                     this.containerDOM.style.backgroundColor = "white";
-                    actionDOM.style.display = "none";
+                    this.childrenNode.actionNode.style.display = "none";
                 }
             })
+        });
 
-        })
-
+        return this.containerDOM;
     }
 
     buildAvatarNode() {
@@ -82,9 +90,12 @@ export default class CardBox extends BaseDOM {
         });
 
         actionNode.appendChild(editIcon);
-        actionNode.appendChild(createPeerCardIcon);
         actionNode.appendChild(createSubCardIcon);
-        actionNode.appendChild(deleteIcon);
+
+        if (this.card.parent !== undefined) {
+            actionNode.appendChild(createPeerCardIcon);
+            actionNode.appendChild(deleteIcon);
+        }
 
         return actionNode;
     }

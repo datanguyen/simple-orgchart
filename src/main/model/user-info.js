@@ -1,8 +1,8 @@
 
 export default class UserInfo {
 
-    constructor(firstName = "fullname...", lastName = "", title = "title...", department = "department...",
-                project = "", avatar = "avatar.png", employeeId = "employeeId...") {
+    constructor(firstName = ".........", lastName = "", title = ".........", department = ".........",
+                project = "", avatar = "avatar.png", employeeId = ".........") {
         this.firstName = firstName;
         this.lastName = lastName;
         this.title = title;

@@ -60,8 +60,10 @@ export default class DOMActions {
 
         let newUserId = getNewId();
         let newUserCard = new UserCard(newUserId);
+        let newParentId = isPeerCard ? parentNode.parentNode.id : this.cardId;
 
-        newUserCard.userCardInfo.setParentId(isPeerCard ? parentNode.parentNode.id : this.cardId);
+        newUserCard.addParent({ id: newParentId })
+        newUserCard.userCardInfo.setParentId(newParentId);
         let newUserCardDOM = new CardElementDOM(newUserId.toString(), new CardBoxDOM(newUserCard));
 
         return {

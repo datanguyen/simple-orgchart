@@ -1,20 +1,3 @@
-export const createCardContainer = () => document.createElement("ul");
-
-export const createCardElement = (cardId, parentNode) => {
-    let cardElement = document.createElement("li");
-    cardElement.id = cardId;
-    parentNode.appendChild(cardElement);
-
-    return cardElement;
-};
-
-export const createCardContent = (cardContentId) => {
-    let a = document.createElement("section");
-    a.className = "card";
-    a.appendChild(document.createTextNode(cardContentId));
-
-    return a;
-};
 
 export const createContainerByTagName = tagName => document.createElement(tagName);
 

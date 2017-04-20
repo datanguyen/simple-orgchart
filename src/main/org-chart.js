@@ -2,11 +2,7 @@ import UserCard from "./model/user-card"
 import CardContainerDOM from "./dom/card-container-dom";
 import CardElementDOM from "./dom/card-element-dom"
 import CardBoxDOM from "./dom/card-box-dom"
-import {
-    createCardContainer,
-    createCardContent,
-    createCardElement
-} from "./dom/dom-util"
+import { createContainerByTagName } from "./dom/dom-util"
 
 export default class OrgChart {
 
@@ -46,11 +42,11 @@ export default class OrgChart {
         if (this.rootCard === undefined) {
             return;
         }
-        let rootContainer = createCardContainer();
-        let rootCardElement = createCardElement(this.rootCard.id, rootContainer);
+        let rootContainer = createContainerByTagName("ul");
+        let rootDOM = new CardElementDOM(this.rootCard.id, new CardBoxDOM(this.rootCard));
 
-        rootCardElement.appendChild(createCardContent(this.rootCard.userCardInfo.getUsername()));
-        rootCardElement.appendChild(this.buildNodeByCard(this.rootCard).render());
+        rootDOM.render().appendChild(this.buildNodeByCard(this.rootCard).render());
+        rootContainer.appendChild(rootDOM.render());
 
         return rootContainer;
     }
