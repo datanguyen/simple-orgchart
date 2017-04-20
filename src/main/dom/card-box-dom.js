@@ -4,7 +4,8 @@ import {
     createContainerByTagName,
     createCommonContainer,
     createCardIcons,
-    createCardInfoNodes
+    createCardInfoNodes,
+    handleNodeToggle
 } from "./dom-util"
 
 export default class CardBox extends BaseDOM {
@@ -52,7 +53,7 @@ export default class CardBox extends BaseDOM {
 
     buildInfoNode() {
         let infoNode = createCommonContainer("info");
-        let { userName, department, employeeId, prefix } = createCardInfoNodes();
+        let {userName, department, employeeId, prefix} = createCardInfoNodes();
 
         userName.textContent = this.card.userCardInfo.getUsername();
         department.textContent = this.card.userCardInfo.getDepartment();
@@ -68,11 +69,11 @@ export default class CardBox extends BaseDOM {
 
     buildActionNode() {
         let actionNode = createCommonContainer("action");
-        let { editIcon, createPeerCardIcon, createSubCardIcon, deleteIcon } = createCardIcons();
+        let {editIcon, createPeerCardIcon, createSubCardIcon, deleteIcon} = createCardIcons();
 
         editIcon.addEventListener("click", () => this.domActions.editCardInfo());
         createPeerCardIcon.addEventListener("click", () => this.domActions.addPeerCard());
-        createSubCardIcon.addEventListener("click", () => this.domActions.addSubCard());
+        createSubCardIcon.addEventListener("click", () => this.domActions.addSubCard(this.card.getSubCards().length > 0));
         deleteIcon.addEventListener("click", () => {
             let confirm = window.confirm("Are your sure to delete this card ?");
             if (confirm === true) {
@@ -90,24 +91,11 @@ export default class CardBox extends BaseDOM {
 
     buildToggleNode() {
         let toggleNode = createCommonContainer("toggle");
-        let { plusIcon, minusIcon } = createCardIcons();
+        let {plusIcon, minusIcon} = createCardIcons();
 
+        minusIcon.addEventListener("click", () => handleNodeToggle(this.containerDOM.parentNode, minusIcon, plusIcon, false));
+        plusIcon.addEventListener("click", () => handleNodeToggle(this.containerDOM.parentNode, minusIcon, plusIcon));
         this.card.getSubCards().length === 0 ? minusIcon.style.display = "none" : plusIcon.style.display = "none";
-
-        minusIcon.addEventListener("click", () => {
-            let card = document.getElementById(this.card.id);
-            let subCards = card.lastChild;
-
-            subCards.style.display = "none";
-            minusIcon.style.display = "none";
-            plusIcon.style.display = "initial";
-
-            plusIcon.addEventListener("click", () => {
-                subCards.style.display = "flex";
-                minusIcon.style.display = "initial";
-                plusIcon.style.display = "none"
-            })
-        });
 
         toggleNode.appendChild(plusIcon);
         toggleNode.appendChild(minusIcon);

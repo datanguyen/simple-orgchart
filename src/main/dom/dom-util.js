@@ -69,3 +69,13 @@ export const createCardInfoNodes = () => {
         prefix
     }
 };
+
+export const handleNodeToggle = (cardNode, minusIcon, plusIcon, isRelease = true)  => {
+    if (cardNode.childNodes.length === 1) {
+        return;
+    }
+
+    cardNode.lastChild.style.display = isRelease ? "flex" : "none";
+    minusIcon.style.display = isRelease ? "initial" : "none";
+    plusIcon.style.display = isRelease ? "none" : "initial";
+};

@@ -9,7 +9,7 @@ export const addNewCard = (card, userData = JSON.parse(sessionStorage.rawData)) 
             avatar: card.userCardInfo.getAvatar(),
             employeeId: card.userCardInfo.getEmployeeId(),
             superiorId: parseInt(card.userCardInfo.getSuperiorId()),
-            id: card.id
+            id: parseInt(card.id)
         }
     );
     updateData(userData);
