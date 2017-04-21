@@ -25,6 +25,7 @@ body {
 .org-chart {
     width: 100%;
     overflow-x: scroll;
+    overflow-y: hidden;
 }
 
 .breadscumbs {

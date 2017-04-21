@@ -38,7 +38,6 @@ export default class CardBox extends BaseDOM {
             this.containerDOM.style.backgroundColor = "#f4f2f2";
             actionNode.style.display = "initial";
 
-            //outsite card click
             document.body.addEventListener("click", (e) => this.storeInformation(e));
         });
 
@@ -52,6 +51,12 @@ export default class CardBox extends BaseDOM {
         avatar.src = `images/${this.card.userCardInfo.getAvatar()}`;
         avaContainer.appendChild(avatar);
 
+        let button = document.createElement("input");
+        button.setAttribute("type", "file");
+        button.className = "button_change-avatar";
+        button.setAttribute("disabled", "disabled");
+
+        avaContainer.appendChild(button);
         return avaContainer;
     }
 
@@ -71,9 +76,10 @@ export default class CardBox extends BaseDOM {
 
     buildActionNode() {
         let actionNode = createCommonContainer("action");
-        let {editIcon, createPeerCardIcon, createSubCardIcon, deleteIcon} = createCardIcons();
+        let { editIcon, createPeerCardIcon, createSubCardIcon, deleteIcon } = createCardIcons();
 
-        editIcon.addEventListener("click", () => this.domActions.editCardInfo(this.childrenNode.infoNode));
+        editIcon.addEventListener("click", () => this.domActions.editCardInfo(
+            this.childrenNode.infoNode, this.childrenNode.avatarNode));
         createPeerCardIcon.addEventListener("click", () => this.domActions.addPeerCard());
         createSubCardIcon.addEventListener("click", () => this.domActions.addSubCard(this.card.getSubCards().length > 0));
         deleteIcon.addEventListener("click", () => {
@@ -108,11 +114,13 @@ export default class CardBox extends BaseDOM {
     }
 
     storeInformation(e) {
-        let {infoNode, actionNode, toggleNode} = this.childrenNode;
+        let { avatarNode, infoNode, actionNode, toggleNode } = this.childrenNode;
 
         if (toggleNode.contains(e.target) || !this.containerDOM.contains(e.target)) {
             this.containerDOM.style.backgroundColor = "white";
             actionNode.style.display = "none";
+            avatarNode.firstChild.style.border = "1px solid #ccc";
+            avatarNode.lastChild.setAttribute("disabled", "disabled");
 
             Array.from(infoNode.childNodes)
                 .forEach(node => {

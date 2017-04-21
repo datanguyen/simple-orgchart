@@ -6,7 +6,7 @@ import {
     addNewCard,
     deleteCardByCardId
 } from "./user-actions"
-import { getNewId } from "../model/user-util";
+import {getNewId} from "../model/user-util";
 
 export default class DOMActions {
 
@@ -14,7 +14,22 @@ export default class DOMActions {
         this.cardId = cardId;
     }
 
-    editCardInfo(infoNode) {
+    editCardInfo(infoNode, avatarNode) {
+        let { firstChild, lastChild } = avatarNode;
+
+        lastChild.removeAttribute("disabled");
+        firstChild.style.border = "1px solid red";
+        firstChild.addEventListener("click", () => {
+            lastChild.click();
+            lastChild.addEventListener("change", (e) => {
+                if (e.target.files[0]) {
+                    let reader = new FileReader();
+                    reader.addEventListener("load", (e) => firstChild.setAttribute("src", e.target.result));
+                    reader.readAsDataURL(e.target.files[0]);
+                }
+            });
+        });
+
 
         Array.from(infoNode.childNodes)
             .forEach(childrenNode => {
@@ -71,7 +86,7 @@ export default class DOMActions {
         let newUserCard = new UserCard(newUserId);
         let newParentId = isPeerCard ? parentNode.parentNode.id : this.cardId;
 
-        newUserCard.addParent({ id: newParentId })
+        newUserCard.addParent({ id: newParentId});
         newUserCard.userCardInfo.setParentId(newParentId);
         let newUserCardDOM = new CardElementDOM(newUserId.toString(), new CardBoxDOM(newUserCard));
 

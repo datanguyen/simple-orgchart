@@ -16,6 +16,10 @@
     margin: 10px 10px;
 }
 
+.card .avatar .button_change-avatar {
+    width: 60px;
+}
+
 .card img {
     width: 60px;
     height: 80px;
@@ -29,6 +33,7 @@
     max-width: 160px;
     margin: 2px;
     list-style-type: none;
+    max-height: 90px;
 }
 
 .card input, select {
