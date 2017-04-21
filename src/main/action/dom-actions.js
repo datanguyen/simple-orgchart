@@ -14,8 +14,17 @@ export default class DOMActions {
         this.cardId = cardId;
     }
 
-    editCardInfo() {
-        console.log("Edit Card" + this.cardId);
+    editCardInfo(infoNode) {
+
+        Array.from(infoNode.childNodes)
+            .forEach(childrenNode => {
+                if (childrenNode === infoNode.lastChild) {
+                    return;
+                }
+
+                childrenNode.firstChild.style.display = "none";
+                childrenNode.lastChild.style.display = "initial";
+            })
     }
 
     addPeerCard() {

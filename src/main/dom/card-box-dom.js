@@ -18,7 +18,6 @@ export default class CardBox extends BaseDOM {
         this.domActions = new DOMActions(this.card.id);
 
 
-
         this.childrenNode = {
             avatarNode: this.buildAvatarNode(),
             infoNode: this.buildInfoNode(),
@@ -29,21 +28,18 @@ export default class CardBox extends BaseDOM {
     }
 
     render() {
-        this.containerDOM.appendChild(this.childrenNode.avatarNode);
-        this.containerDOM.appendChild(this.childrenNode.infoNode);
-        this.containerDOM.appendChild(this.childrenNode.actionNode);
-        this.containerDOM.appendChild(this.childrenNode.toggleNode);
+        let {avatarNode, infoNode, actionNode, toggleNode} = this.childrenNode;
+        this.containerDOM.appendChild(avatarNode);
+        this.containerDOM.appendChild(infoNode);
+        this.containerDOM.appendChild(actionNode);
+        this.containerDOM.appendChild(toggleNode);
 
         this.containerDOM.addEventListener("click", () => {
             this.containerDOM.style.backgroundColor = "#f4f2f2";
-            this.childrenNode.actionNode.style.display = "initial";
+            actionNode.style.display = "initial";
 
-            document.body.addEventListener("click", (e) => {
-                if (this.childrenNode.toggleNode.contains(e.target) || !this.containerDOM.contains(e.target)) {
-                    this.containerDOM.style.backgroundColor = "white";
-                    this.childrenNode.actionNode.style.display = "none";
-                }
-            })
+            //outsite card click
+            document.body.addEventListener("click", (e) => this.storeInformation(e));
         });
 
         return this.containerDOM;
@@ -60,16 +56,14 @@ export default class CardBox extends BaseDOM {
     }
 
     buildInfoNode() {
-        let infoNode = createCommonContainer("info");
-        let {userName, department, employeeId, prefix} = createCardInfoNodes();
+        let infoNode = createContainerByTagName("ul");
+        let {usernameDOM, departmentDOM, employeeIdDOM, prefix} = createCardInfoNodes(this.card.userCardInfo.getUsername(),
+            this.card.userCardInfo.getDepartment(), this.card.userCardInfo.getEmployeeId());
 
-        userName.textContent = this.card.userCardInfo.getUsername();
-        department.textContent = this.card.userCardInfo.getDepartment();
-        employeeId.textContent = this.card.userCardInfo.getEmployeeId();
-
-        infoNode.appendChild(userName);
-        infoNode.appendChild(department);
-        infoNode.appendChild(employeeId);
+        infoNode.className = "info";
+        infoNode.appendChild(usernameDOM);
+        infoNode.appendChild(departmentDOM);
+        infoNode.appendChild(employeeIdDOM);
         infoNode.appendChild(prefix);
 
         return infoNode;
@@ -79,7 +73,7 @@ export default class CardBox extends BaseDOM {
         let actionNode = createCommonContainer("action");
         let {editIcon, createPeerCardIcon, createSubCardIcon, deleteIcon} = createCardIcons();
 
-        editIcon.addEventListener("click", () => this.domActions.editCardInfo());
+        editIcon.addEventListener("click", () => this.domActions.editCardInfo(this.childrenNode.infoNode));
         createPeerCardIcon.addEventListener("click", () => this.domActions.addPeerCard());
         createSubCardIcon.addEventListener("click", () => this.domActions.addSubCard(this.card.getSubCards().length > 0));
         deleteIcon.addEventListener("click", () => {
@@ -111,5 +105,26 @@ export default class CardBox extends BaseDOM {
         toggleNode.appendChild(plusIcon);
         toggleNode.appendChild(minusIcon);
         return toggleNode;
+    }
+
+    storeInformation(e) {
+        let {infoNode, actionNode, toggleNode} = this.childrenNode;
+
+        if (toggleNode.contains(e.target) || !this.containerDOM.contains(e.target)) {
+            this.containerDOM.style.backgroundColor = "white";
+            actionNode.style.display = "none";
+
+            Array.from(infoNode.childNodes)
+                .forEach(node => {
+                    if (node === infoNode.lastChild) {
+                        return;
+                    }
+                    let { firstChild, lastChild } = node;
+
+                    firstChild.style.display = "initial";
+                    lastChild.style.display = "none";
+                    firstChild.innerHTML = lastChild.value;
+                })
+        }
     }
 }

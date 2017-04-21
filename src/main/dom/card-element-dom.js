@@ -6,6 +6,7 @@ export default class CardElementDOM extends BaseDOM {
     constructor(id, elementContentDOM, subCardContainerDOM) {
         super(createContainerByTagName("li"));
 
+        this.containerDOM.className = "org-chart__card-element";
         this.containerDOM.id = id;
         this.containerDOM.appendChild(elementContentDOM.render());
 

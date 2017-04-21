@@ -13,8 +13,7 @@
 }
 
 .card .avatar {
-    max-width: 65px;
-    margin: 10px;
+    margin: 10px 10px;
 }
 
 .card img {
@@ -27,10 +26,18 @@
 }
 
 .card .info {
-    max-width: 150px;
-    max-height: 100px;
+    max-width: 160px;
     margin: 2px;
-    overflow: hidden;
+    list-style-type: none;
+}
+
+.card input, select {
+    display: none;
+    width: 100px;
+}
+
+.card select {
+    width: 104px;
 }
 
 .card .info > * {
@@ -41,8 +48,14 @@
     color: #14B1E7
 }
 
+.card .username {
+    font-size: 20px;
+    font-weight: bold;
+}
+
 .card .employeeId {
-    display: block
+    display: block;
+    text-decoration: underline;
 }
 
 .card .kms-prefix {

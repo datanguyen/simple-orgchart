@@ -43,6 +43,7 @@ export default class OrgChart {
             return;
         }
         let rootContainer = createContainerByTagName("ul");
+        rootContainer.className = "org-chart__card-container";
         let rootDOM = new CardElementDOM(this.rootCard.id, new CardBoxDOM(this.rootCard));
 
         rootDOM.render().appendChild(this.buildNodeByCard(this.rootCard).render());
