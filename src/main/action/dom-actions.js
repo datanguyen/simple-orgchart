@@ -15,16 +15,16 @@ export default class DOMActions {
     }
 
     editCardInfo(infoNode, avatarNode) {
-        let { firstChild, lastChild } = avatarNode;
+        let { firstChild: avatarFirstChild, lastChild: avatarLastChild } = avatarNode;
 
-        lastChild.removeAttribute("disabled");
-        firstChild.style.border = "1px solid red";
-        firstChild.addEventListener("click", () => {
-            lastChild.click();
-            lastChild.addEventListener("change", (e) => {
+        avatarLastChild.removeAttribute("disabled");
+        avatarFirstChild.style.border = "1px solid red";
+        avatarFirstChild.addEventListener("click", () => {
+            avatarLastChild.click();
+            avatarLastChild.addEventListener("change", (e) => {
                 if (e.target.files[0]) {
                     let reader = new FileReader();
-                    reader.addEventListener("load", (e) => firstChild.setAttribute("src", e.target.result));
+                    reader.addEventListener("load", (e) => avatarFirstChild.setAttribute("src", e.target.result));
                     reader.readAsDataURL(e.target.files[0]);
                 }
             });
@@ -51,10 +51,10 @@ export default class DOMActions {
     }
 
     addSubCard(alreadyHasChild) {
-        let { currentNode, lastChild } = this.getFamilyNode();
+        let { currentNode, lastChild: lastChildNode } = this.getFamilyNode();
         let { newUserCard, newUserCardDOM, newUserCardContainerDOM } = this.createNewUserCardDOM(false);
 
-        alreadyHasChild ? lastChild.appendChild(newUserCardDOM.render())
+        alreadyHasChild ? lastChildNode.appendChild(newUserCardDOM.render())
             : currentNode.appendChild(newUserCardContainerDOM.render());
 
         addNewCard(newUserCard);

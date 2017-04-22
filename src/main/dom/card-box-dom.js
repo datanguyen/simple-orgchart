@@ -7,6 +7,7 @@ import {
     createCardInfoNodes,
     handleNodeToggle
 } from "./dom-util"
+import { updateInfoCard } from "../action/user-actions"
 
 export default class CardBox extends BaseDOM {
 
@@ -38,7 +39,7 @@ export default class CardBox extends BaseDOM {
             this.containerDOM.style.backgroundColor = "#f4f2f2";
             actionNode.style.display = "initial";
 
-            document.body.addEventListener("click", (e) => this.storeInformation(e));
+            document.body.addEventListener("click", e => this.storeInformation(e));
         });
 
         return this.containerDOM;
@@ -48,7 +49,7 @@ export default class CardBox extends BaseDOM {
         let avaContainer = createCommonContainer("card__avatar");
 
         let avatar = document.createElement("img");
-        avatar.src = `images/${this.card.userCardInfo.getAvatar()}`;
+        avatar.src = `images/avatar.png`;
         avaContainer.appendChild(avatar);
 
         let button = document.createElement("input");
@@ -117,25 +118,30 @@ export default class CardBox extends BaseDOM {
         let { avatarNode, infoNode, actionNode, toggleNode } = this.childrenNode;
 
         if (toggleNode.contains(e.target) || !this.containerDOM.contains(e.target)) {
+            let infoChangedByName = new Map();
             this.containerDOM.style.backgroundColor = "white";
             actionNode.style.display = "none";
             avatarNode.firstChild.style.border = "1px solid black";
             avatarNode.lastChild.setAttribute("disabled", "disabled");
 
             Array.from(infoNode.childNodes)
-                .forEach(node => {
-                    if (node === infoNode.lastChild) {
+                .forEach(childNode => {
+                    if (childNode === infoNode.lastChild) {
                         return;
                     }
-                    let { firstChild, lastChild } = node;
+                    let { firstChild: label, lastChild: input } = childNode;
+                    label.style.display = "initial";
+                    input.style.display = "none";
 
-                    firstChild.style.display = "initial";
-                    lastChild.style.display = "none";
-                    firstChild.innerHTML = lastChild.value;
-                })
+                    if (label.textContent !== input.value) {
+                        label.innerHTML = input.value;
+                        infoChangedByName.set(label.getAttribute("for"), input.value);
+                    }
+                });
 
-
-
+            if (infoChangedByName.size !== 0) {
+                updateInfoCard(this.card.id, infoChangedByName);
+            }
         }
     }
 }

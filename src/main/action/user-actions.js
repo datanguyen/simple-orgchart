@@ -27,4 +27,19 @@ export const deleteCardByCardId = (cardId, userData = JSON.parse(sessionStorage.
     subCardsTobeDeleted.forEach(user => deleteCardByCardId(user.id));
 };
 
+export const updateInfoCard = (cardId, valueToBeChanged, userData = JSON.parse(sessionStorage.rawData)) => {
+
+    for (let [key, value] of valueToBeChanged) {
+        if (key === "username") {
+            let [firstName, ...lastName] = value.split(" ");
+            userData.find(user => user.id === cardId)['firstName'] = firstName;
+            userData.find(user => user.id === cardId)['lastName'] = lastName;
+        } else {
+            userData.find(user => user.id === cardId)[key] = value;
+        }
+    }
+    updateData(userData);
+};
+
+
 const updateData = newData => sessionStorage.rawData = JSON.stringify(newData);
