@@ -45,7 +45,7 @@ export default class CardBox extends BaseDOM {
     }
 
     buildAvatarNode() {
-        let avaContainer = createCommonContainer("avatar");
+        let avaContainer = createCommonContainer("card__avatar");
 
         let avatar = document.createElement("img");
         avatar.src = `images/${this.card.userCardInfo.getAvatar()}`;
@@ -62,10 +62,10 @@ export default class CardBox extends BaseDOM {
 
     buildInfoNode() {
         let infoNode = createContainerByTagName("ul");
-        let {usernameDOM, departmentDOM, employeeIdDOM, prefix} = createCardInfoNodes(this.card.userCardInfo.getUsername(),
+        let { usernameDOM, departmentDOM, employeeIdDOM, prefix } = createCardInfoNodes(this.card.userCardInfo.getUsername(),
             this.card.userCardInfo.getDepartment(), this.card.userCardInfo.getEmployeeId());
 
-        infoNode.className = "info";
+        infoNode.className = "card__info";
         infoNode.appendChild(usernameDOM);
         infoNode.appendChild(departmentDOM);
         infoNode.appendChild(employeeIdDOM);
@@ -75,7 +75,7 @@ export default class CardBox extends BaseDOM {
     }
 
     buildActionNode() {
-        let actionNode = createCommonContainer("action");
+        let actionNode = createCommonContainer("card__action");
         let { editIcon, createPeerCardIcon, createSubCardIcon, deleteIcon } = createCardIcons();
 
         editIcon.addEventListener("click", () => this.domActions.editCardInfo(
@@ -101,8 +101,8 @@ export default class CardBox extends BaseDOM {
     }
 
     buildToggleNode() {
-        let toggleNode = createCommonContainer("toggle");
-        let {plusIcon, minusIcon} = createCardIcons();
+        let toggleNode = createCommonContainer("card__toggle");
+        let { plusIcon, minusIcon } = createCardIcons();
 
         minusIcon.addEventListener("click", () => handleNodeToggle(this.containerDOM.parentNode, minusIcon, plusIcon, false));
         plusIcon.addEventListener("click", () => handleNodeToggle(this.containerDOM.parentNode, minusIcon, plusIcon));
@@ -119,7 +119,7 @@ export default class CardBox extends BaseDOM {
         if (toggleNode.contains(e.target) || !this.containerDOM.contains(e.target)) {
             this.containerDOM.style.backgroundColor = "white";
             actionNode.style.display = "none";
-            avatarNode.firstChild.style.border = "1px solid #ccc";
+            avatarNode.firstChild.style.border = "1px solid black";
             avatarNode.lastChild.setAttribute("disabled", "disabled");
 
             Array.from(infoNode.childNodes)
@@ -133,6 +133,9 @@ export default class CardBox extends BaseDOM {
                     lastChild.style.display = "none";
                     firstChild.innerHTML = lastChild.value;
                 })
+
+
+
         }
     }
 }

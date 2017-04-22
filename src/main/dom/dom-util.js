@@ -33,9 +33,9 @@ export const createCardIcons = () => {
 };
 
 export const createCardInfoNodes = (username, department, employeeId) => {
-    let usernameDOM = createListElement("username", username);
-    let departmentDOM = createListElement("department", department, false);
-    let employeeIdDOM = createListElement("employeeId", employeeId);
+    let usernameDOM = createListElement("info__username", username);
+    let departmentDOM = createListElement("info__department", department, false);
+    let employeeIdDOM = createListElement("info__employeeId", employeeId);
     let prefix = document.createElement("i");
 
     employeeIdDOM.setAttribute("href", "#");

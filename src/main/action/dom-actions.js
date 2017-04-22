@@ -6,7 +6,7 @@ import {
     addNewCard,
     deleteCardByCardId
 } from "./user-actions"
-import {getNewId} from "../model/user-util";
+import { getNewId } from "../model/user-util";
 
 export default class DOMActions {
 
@@ -30,13 +30,11 @@ export default class DOMActions {
             });
         });
 
-
         Array.from(infoNode.childNodes)
             .forEach(childrenNode => {
                 if (childrenNode === infoNode.lastChild) {
                     return;
                 }
-
                 childrenNode.firstChild.style.display = "none";
                 childrenNode.lastChild.style.display = "initial";
             })
