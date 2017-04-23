@@ -5,7 +5,8 @@ import {
     createCommonContainer,
     createCardIcons,
     createCardInfoNodes,
-    handleNodeToggle
+    handleNodeToggle,
+    handleDragEnd
 } from "./dom-util"
 import { updateInfoCard } from "../action/user-actions"
 
@@ -17,8 +18,6 @@ export default class CardBox extends BaseDOM {
 
         this.card = card;
         this.domActions = new DOMActions(this.card.id);
-
-
         this.childrenNode = {
             avatarNode: this.buildAvatarNode(),
             infoNode: this.buildInfoNode(),
@@ -41,6 +40,7 @@ export default class CardBox extends BaseDOM {
 
             document.body.addEventListener("click", e => this.storeInformation(e));
         });
+        this.activateDnD();
 
         return this.containerDOM;
     }
@@ -103,7 +103,7 @@ export default class CardBox extends BaseDOM {
 
     buildToggleNode() {
         let toggleNode = createCommonContainer("card__toggle");
-        let { plusIcon, minusIcon } = createCardIcons();
+        let {plusIcon, minusIcon} = createCardIcons();
 
         minusIcon.addEventListener("click", () => handleNodeToggle(this.containerDOM.parentNode, minusIcon, plusIcon, false));
         plusIcon.addEventListener("click", () => handleNodeToggle(this.containerDOM.parentNode, minusIcon, plusIcon));
@@ -112,6 +112,33 @@ export default class CardBox extends BaseDOM {
         toggleNode.appendChild(plusIcon);
         toggleNode.appendChild(minusIcon);
         return toggleNode;
+    }
+
+    activateDnD() {
+        this.containerDOM.setAttribute("draggable", "true");
+        this.containerDOM.addEventListener("drag", () => this.containerDOM.style.border = "2px dashed blue");
+        this.containerDOM.addEventListener("dragstart", (e) => e.dataTransfer.setData("id", this.card.id));
+        this.containerDOM.addEventListener("dragleave", (e) => handleDragEnd(e, this.containerDOM, false));
+        this.containerDOM.addEventListener("dragend", (e) => handleDragEnd(e, this.containerDOM));
+        this.containerDOM.addEventListener("dragover", (e) => {
+            e.preventDefault();
+            if (e.target === this.containerDOM || this.containerDOM.contains(e.target)) {
+                this.containerDOM.style.border = "2px dashed blue";
+            }
+        });
+
+        this.containerDOM.addEventListener("drop", (e) => {
+            e.preventDefault();
+            let cardId = e.dataTransfer.getData("id");
+            let draggedCard = document.getElementById(cardId);
+
+            if (cardId === this.card.id.toString()) {
+                return;
+            }
+
+            this.domActions.dropCard(draggedCard, this.card.getSubCards().length > 0);
+            document.getElementById("msg").innerHTML = "";
+        });
     }
 
     storeInformation(e) {
@@ -129,7 +156,7 @@ export default class CardBox extends BaseDOM {
                     if (childNode === infoNode.lastChild) {
                         return;
                     }
-                    let { firstChild: label, lastChild: input } = childNode;
+                    let {firstChild: label, lastChild: input} = childNode;
                     label.style.display = "initial";
                     input.style.display = "none";
 

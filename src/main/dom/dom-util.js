@@ -33,9 +33,9 @@ export const createCardIcons = () => {
 };
 
 export const createCardInfoNodes = (username, department, employeeId) => {
-    let usernameDOM = createListElement("info__username", username);
-    let departmentDOM = createListElement("info__department", department, false);
-    let employeeIdDOM = createListElement("info__employeeId", employeeId);
+    let usernameDOM = createListElement("info__username", username, "username");
+    let departmentDOM = createListElement("info__department", department, "department", false);
+    let employeeIdDOM = createListElement("info__employeeId", employeeId, "employeeId");
     let prefix = document.createElement("i");
 
     employeeIdDOM.setAttribute("href", "#");
@@ -50,10 +50,11 @@ export const createCardInfoNodes = (username, department, employeeId) => {
     }
 };
 
-export const createListElement = (labelClassName, value, isInput = true) => {
+export const createListElement = (labelClassName, value, labelFor, isInput = true) => {
     let elementDOM = document.createElement("li");
 
     let label = document.createElement("label");
+    label.setAttribute("for", labelFor);
     label.className = labelClassName;
     label.innerHTML = value;
 
@@ -64,6 +65,7 @@ export const createListElement = (labelClassName, value, isInput = true) => {
     } else {
         input = createDepartmentList(value);
     }
+    input.setAttribute("id", labelFor);
 
     elementDOM.appendChild(label);
     elementDOM.appendChild(input);
@@ -88,7 +90,7 @@ export const createDepartmentList = (departmentName) => {
     return selectDOM;
 };
 
-export const handleNodeToggle = (cardNode, minusIcon, plusIcon, isRelease = true)  => {
+export const handleNodeToggle = (cardNode, minusIcon, plusIcon, isRelease = true) => {
     if (cardNode.childNodes.length === 1) {
         return;
     }
@@ -96,4 +98,12 @@ export const handleNodeToggle = (cardNode, minusIcon, plusIcon, isRelease = true
     cardNode.lastChild.style.display = isRelease ? "flex" : "none";
     minusIcon.style.display = isRelease ? "initial" : "none";
     plusIcon.style.display = isRelease ? "none" : "initial";
+};
+
+export const handleDragEnd = (event, cardToBeDragged, isOver = true) => {
+    event.preventDefault();
+    if (event.target === cardToBeDragged || cardToBeDragged.contains(event.target)) {
+        cardToBeDragged.style.border = "2px solid #b5b5b5";
+        document.getElementById("msg").innerHTML = isOver ? "" : "Drop in a card that you want to be its superior card.";
+    }
 };

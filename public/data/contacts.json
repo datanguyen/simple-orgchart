@@ -109,17 +109,6 @@
     "id": 11
   },
   {
-    "firstName": "Mai",
-    "lastName": "Le",
-    "title": "DD",
-    "department": "Delivery",
-    "project": "MarketLive",
-    "avatar": "avatar.png",
-    "employeeId": "maile",
-    "superiorId": 5,
-    "id": 11
-  },
-  {
     "firstName": "Dieu",
     "lastName": "Pham",
     "title": "EM",

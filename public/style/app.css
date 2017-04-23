@@ -26,19 +26,31 @@ body {
     width: 100%;
     overflow-x: scroll;
     overflow-y: hidden;
+    margin-top: 40px;
 }
 
 .breadscumbs {
     border: 1px solid #ccc;
     background-color: #efefef;
-    height: 20%;
+    height: 30px;
     font-size: 20px;
     padding: 10px;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 10000000;
 }
 
 #root-path {
     display: inline-block;
     color: #14B1E7;
+}
+
+#msg {
+    margin-right: 500px;
+    color: #4153f4;
+    float: right;
+    margin-top: 5px;
 }
 
 .font-icon {

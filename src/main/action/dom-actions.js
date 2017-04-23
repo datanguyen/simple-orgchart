@@ -4,7 +4,8 @@ import CardElementDOM from "../dom/card-element-dom";
 import CardContainerDOM from "../dom/card-container-dom";
 import {
     addNewCard,
-    deleteCardByCardId
+    deleteCardByCardId,
+    updateInfoCard
 } from "./user-actions"
 import { getNewId } from "../model/user-util";
 
@@ -18,14 +19,13 @@ export default class DOMActions {
         let { firstChild: avatarFirstChild, lastChild: avatarLastChild } = avatarNode;
 
         avatarLastChild.removeAttribute("disabled");
-        avatarFirstChild.style.border = "1px solid red";
+        avatarFirstChild.style.border = "1px dashed blue";
         avatarFirstChild.addEventListener("click", () => {
             avatarLastChild.click();
             avatarLastChild.addEventListener("change", (e) => {
+                e.preventDefault();
                 if (e.target.files[0]) {
-                    let reader = new FileReader();
-                    reader.addEventListener("load", (e) => avatarFirstChild.setAttribute("src", e.target.result));
-                    reader.readAsDataURL(e.target.files[0]);
+                    avatarFirstChild.setAttribute("src", URL.createObjectURL(e.target.files[0]));
                 }
             });
         });
@@ -41,29 +41,52 @@ export default class DOMActions {
     }
 
     addPeerCard() {
-        let { parentNode, nextSiblingNode } = this.getFamilyNode();
+        let { parentNode: cardContainer, nextSiblingNode: nextCardElement } = this.getFamilyNode();
         let { newUserCard, newUserCardDOM } = this.createNewUserCardDOM();
 
-        nextSiblingNode === null ? parentNode.appendChild(newUserCardDOM.render())
-            : parentNode.insertBefore(newUserCardDOM.render(), nextSiblingNode);
+        nextCardElement  === null ? cardContainer.appendChild(newUserCardDOM.render())
+            : cardContainer.insertBefore(newUserCardDOM.render(), nextCardElement);
 
         addNewCard(newUserCard);
     }
 
     addSubCard(alreadyHasChild) {
-        let { currentNode, lastChild: lastChildNode } = this.getFamilyNode();
+        let { currentNode: cardElement, lastChild: subCardsContainer } = this.getFamilyNode();
         let { newUserCard, newUserCardDOM, newUserCardContainerDOM } = this.createNewUserCardDOM(false);
 
-        alreadyHasChild ? lastChildNode.appendChild(newUserCardDOM.render())
-            : currentNode.appendChild(newUserCardContainerDOM.render());
+        alreadyHasChild ? subCardsContainer.appendChild(newUserCardDOM.render())
+            : cardElement.appendChild(newUserCardContainerDOM.render());
 
         addNewCard(newUserCard);
     }
 
     deleteCard() {
-        let { currentNode, parentNode } = this.getFamilyNode();
-        parentNode.removeChild(currentNode);
+        let { currentNode: cardElement, parentNode: cardContainer } = this.getFamilyNode();
+        cardContainer.removeChild(cardElement);
         deleteCardByCardId(this.cardId);
+    }
+
+    dropCard(draggedCard, alreadyHasChild) {
+        let { currentNode: cardElement, firstChild: cardBox, lastChild: subCardsContainer } = this.getFamilyNode();
+
+        cardBox.style.border = "2px solid #b5b5b5";
+        if (draggedCard.contains(cardBox)) {
+            alert("ERROR!!! A subordinate card cannot be a superior card of its own parent card.");
+            return;
+        }
+
+        if (alreadyHasChild) {
+            subCardsContainer.appendChild(draggedCard);
+        } else {
+            let newSubsCardContainer = document.createElement("ul");
+            newSubsCardContainer.className = "org-chart__card-container";
+            newSubsCardContainer.appendChild(draggedCard);
+            cardElement.appendChild(newSubsCardContainer);
+        }
+
+        let valueChanged = new Map();
+        valueChanged.set("superiorId", this.cardId);
+        updateInfoCard(parseInt(draggedCard.id), valueChanged);
     }
 
     getFamilyNode() {
@@ -73,6 +96,7 @@ export default class DOMActions {
             currentNode,
             parentNode: currentNode.parentNode,
             nextSiblingNode: currentNode.nextElementSibling,
+            firstChild: currentNode.firstChild,
             lastChild: currentNode.lastChild
         };
     }
