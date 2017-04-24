@@ -1,88 +1,83 @@
-import UserCard from "./model/user-card"
-import CardContainerDOM from "./dom/card-container-dom";
-import CardElementDOM from "./dom/card-element-dom"
-import CardBoxDOM from "./dom/card-box-dom"
-import {
-    createContainerByTagName,
-    createPath
-} from "./dom/dom-util"
-import { findFamilyById } from "./model/user-util";
+import UserCard from './model/user-card'
+import CardContainerDOM from './dom/card-container-dom'
+import CardElementDOM from './dom/card-element-dom'
+import CardBoxDOM from './dom/card-box-dom'
+import { createContainerByTagName, createPath } from "./dom/dom-util"
+import { findFamilyById } from './model/user-util'
 
 export default class OrgChart {
 
-    constructor(data, requiredId = null) {
-        this.rawData = data;
-        this.rootCard = this.createRootCard(requiredId);
-        this.cards = [];
-        this.buildCardTree(this.rootCard, this.cards);
+  constructor (data, requiredId = null) {
+    this.rawData = data
+    this.rootCard = this.createRootCard(requiredId)
+    this.cards = []
+    this.buildCardTree(this.rootCard, this.cards)
+  }
+
+  createRootCard (requiredId) {
+    if (requiredId === null) {
+      return UserCard.mapRawDataToUserCard(this.rawData.find(user => user.superiorId === undefined))
+    }
+    return UserCard.mapRawDataToUserCard(this.rawData.find(user => user.id === requiredId))
+  }
+
+  buildCardTree (card, cards) {
+    if (card === undefined) {
+      return
     }
 
-    createRootCard(requiredId) {
-        if (requiredId === null) {
-            return UserCard.mapRawDataToUserCard(this.rawData.find(user => user.superiorId === undefined));
-        }
-        return UserCard.mapRawDataToUserCard(this.rawData.find(user => user.id === requiredId));
+    cards.push(card)
+    card.addSubCards(this.rawData
+      .filter(user => user.superiorId === card.id)
+      .map(user => UserCard.mapRawDataToUserCard(user)))
+
+    card.getSubCards()
+      .forEach((subCard) => {
+        subCard.addParent(card)
+        this.buildCardTree(subCard, cards)
+      })
+  }
+
+  createRootNode () {
+    if (this.rootCard === undefined) {
+      return
     }
 
-    buildCardTree(card, cards) {
-        if (card === undefined) {
-            return;
-        }
+    let rootContainer = createContainerByTagName('ul')
+    rootContainer.className = 'org-chart__card-container'
+    let rootDOM = new CardElementDOM(this.rootCard.id, new CardBoxDOM(this.rootCard))
+    let subCardsNode = this.buildNodeByCard(this.rootCard)
 
-        cards.push(card);
-        card.addSubCards(this.rawData
-            .filter(user => user.superiorId === card.id)
-            .map(user => UserCard.mapRawDataToUserCard(user)));
-
-        card.getSubCards()
-            .forEach((subCard) => {
-                subCard.addParent(card);
-                this.buildCardTree(subCard, cards);
-            })
+    if (subCardsNode !== undefined) {
+      rootDOM.render().appendChild(subCardsNode.render())
     }
 
-    createRootNode() {
-        if (this.rootCard === undefined) {
-            return;
-        }
-        let rootContainer = createContainerByTagName("ul");
-        rootContainer.className = "org-chart__card-container";
-        let rootDOM = new CardElementDOM(this.rootCard.id, new CardBoxDOM(this.rootCard));
-        let subCardsNode = this.buildNodeByCard(this.rootCard);
+    rootContainer.appendChild(rootDOM.render())
+    return rootContainer
+  }
 
-        if (subCardsNode !== undefined) {
-            rootDOM.render().appendChild(subCardsNode.render());
-        }
-
-        rootContainer.appendChild(rootDOM.render());
-        return rootContainer;
+  buildNodeByCard (card) {
+    if (card.getSubCards().length === 0) {
+      return
     }
 
-    buildNodeByCard(card) {
-        if (card.getSubCards().length === 0) {
-            return;
-        }
+    return new CardContainerDOM(card.getSubCards()
+        .map(subCard => new CardElementDOM(subCard.id, new CardBoxDOM(subCard), this.buildNodeByCard(subCard))))
+  }
 
-        return new CardContainerDOM(
-            card.getSubCards()
-                .map(subCard => new CardElementDOM(subCard.id, new CardBoxDOM(subCard),
-                    this.buildNodeByCard(subCard)))
-        );
+  createBreadscumbs () {
+    let subRootPathContainer = document.getElementById('sub-root')
+    subRootPathContainer.innerHTML = ''
+    let familyPath = findFamilyById(this.rootCard.id)
+
+    while (familyPath.length !== 0) {
+      let user = familyPath.pop()
+      subRootPathContainer.appendChild(createPath(user.id, ` / ${user.username}`))
     }
+  }
 
-    createBreadscumbs() {
-        let subRootPathContainer = document.getElementById("sub-root");
-        subRootPathContainer.innerHTML = "";
-        let familyPath = findFamilyById(this.rootCard.id);
-
-        while (familyPath.length !== 0) {
-            let user = familyPath.pop();
-            subRootPathContainer.appendChild(createPath(user.id, ` / ${user.username}`));
-        }
-    }
-
-    render() {
-        this.createBreadscumbs();
-        return this.createRootNode();
-    }
+  render () {
+    this.createBreadscumbs();
+    return this.createRootNode();
+  }
 }

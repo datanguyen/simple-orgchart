@@ -1,17 +1,17 @@
+import BaseDOM from './base-dom'
+import { createContainerByTagName } from './dom-util'
 
-import BaseDOM from "./base-dom"
-import {createContainerByTagName} from "./dom-util"
 export default class CardElementDOM extends BaseDOM {
 
-    constructor(id, elementContentDOM, subCardContainerDOM) {
-        super(createContainerByTagName("li"));
+  constructor (id, elementContentDOM, subCardContainerDOM) {
+    super(createContainerByTagName('li'))
 
-        this.containerDOM.className = "org-chart__card-element";
-        this.containerDOM.id = id;
-        this.containerDOM.appendChild(elementContentDOM.render());
+    this.containerDOM.className = 'org-chart__card-element'
+    this.containerDOM.id = id
+    this.containerDOM.appendChild(elementContentDOM.render())
 
-        if (subCardContainerDOM !== undefined) {
-            this.containerDOM.appendChild(subCardContainerDOM.render())
-        }
+    if (subCardContainerDOM !== undefined) {
+      this.containerDOM.appendChild(subCardContainerDOM.render())
     }
+  }
 }
