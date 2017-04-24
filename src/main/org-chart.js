@@ -2,20 +2,26 @@ import UserCard from "./model/user-card"
 import CardContainerDOM from "./dom/card-container-dom";
 import CardElementDOM from "./dom/card-element-dom"
 import CardBoxDOM from "./dom/card-box-dom"
-import { createContainerByTagName } from "./dom/dom-util"
+import {
+    createContainerByTagName,
+    createPath
+} from "./dom/dom-util"
+import { findFamilyById } from "./model/user-util";
 
 export default class OrgChart {
 
-    constructor(data) {
+    constructor(data, requiredId = null) {
         this.rawData = data;
-        this.rootCard = this.createRootCard();
+        this.rootCard = this.createRootCard(requiredId);
         this.cards = [];
         this.buildCardTree(this.rootCard, this.cards);
     }
 
-    createRootCard() {
-        return UserCard.mapRawDataToUserCard(this.rawData
-            .find(user => user.superiorId === undefined));
+    createRootCard(requiredId) {
+        if (requiredId === null) {
+            return UserCard.mapRawDataToUserCard(this.rawData.find(user => user.superiorId === undefined));
+        }
+        return UserCard.mapRawDataToUserCard(this.rawData.find(user => user.id === requiredId));
     }
 
     buildCardTree(card, cards) {
@@ -24,18 +30,15 @@ export default class OrgChart {
         }
 
         cards.push(card);
-        card.addSubCards(this.getSubCardsById(card.id));
+        card.addSubCards(this.rawData
+            .filter(user => user.superiorId === card.id)
+            .map(user => UserCard.mapRawDataToUserCard(user)));
+
         card.getSubCards()
             .forEach((subCard) => {
                 subCard.addParent(card);
                 this.buildCardTree(subCard, cards);
             })
-    }
-
-    getSubCardsById(cardId) {
-        return this.rawData
-            .filter(user => user.superiorId === cardId)
-            .map(user => UserCard.mapRawDataToUserCard(user))
     }
 
     createRootNode() {
@@ -45,10 +48,13 @@ export default class OrgChart {
         let rootContainer = createContainerByTagName("ul");
         rootContainer.className = "org-chart__card-container";
         let rootDOM = new CardElementDOM(this.rootCard.id, new CardBoxDOM(this.rootCard));
+        let subCardsNode = this.buildNodeByCard(this.rootCard);
 
-        rootDOM.render().appendChild(this.buildNodeByCard(this.rootCard).render());
+        if (subCardsNode !== undefined) {
+            rootDOM.render().appendChild(subCardsNode.render());
+        }
+
         rootContainer.appendChild(rootDOM.render());
-
         return rootContainer;
     }
 
@@ -65,27 +71,18 @@ export default class OrgChart {
     }
 
     createBreadscumbs() {
-        let superRootContainerDOM = document.getElementById("root-path");
-        let superRootName = "Vu Lam";
+        let subRootPathContainer = document.getElementById("sub-root");
+        subRootPathContainer.innerHTML = "";
+        let familyPath = findFamilyById(this.rootCard.id);
 
-        if (superRootContainerDOM === undefined) {
-            return;
+        while (familyPath.length !== 0) {
+            let user = familyPath.pop();
+            subRootPathContainer.appendChild(createPath(user.id, ` / ${user.username}`));
         }
-        let superiorCard = this.rootCard.getParent();
-
-        if (superiorCard !== undefined) {
-            superRootName = superiorCard.userCardInfo.getUsername();
-            superRootContainerDOM.id = superiorCard.id;
-        }
-
-        superRootContainerDOM.textContent = `${superRootName}`;
-        let textNode = document.createTextNode(` / ${this.rootCard.userCardInfo.getUsername()}`);
-        superRootContainerDOM.parentNode.appendChild(textNode);
     }
 
     render() {
         this.createBreadscumbs();
         return this.createRootNode();
     }
-
 }

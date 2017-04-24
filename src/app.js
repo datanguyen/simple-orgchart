@@ -18,11 +18,8 @@ if (typeof (Storage) !== "undefined") {
                     })
 
             })
-            .catch((err) => {
-                orgChartDOM.innerHTML = `Your browser does not support Fetch API: ${err}`;
-            });
+            .catch(err => orgChartDOM.innerHTML = `Your browser does not support Fetch API: ${err}`);
     }
-
 } else {
     orgChartDOM.innerHTML = "Your browser does not support session Storage";
 }

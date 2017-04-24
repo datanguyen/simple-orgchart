@@ -1,4 +1,5 @@
-import UserCard from "../model/user-card"
+import OrgChart from "../org-chart";
+import UserCard from "../model/user-card";
 import CardBoxDOM from "../dom/card-box-dom";
 import CardElementDOM from "../dom/card-element-dom";
 import CardContainerDOM from "../dom/card-container-dom";
@@ -87,6 +88,12 @@ export default class DOMActions {
         let valueChanged = new Map();
         valueChanged.set("superiorId", this.cardId);
         updateInfoCard(parseInt(draggedCard.id), valueChanged);
+    }
+
+    changeRootCard() {
+        let orgChartDOM = document.getElementById("orgChart");
+        orgChartDOM.innerHTML = "";
+        orgChartDOM.appendChild((new OrgChart(JSON.parse(sessionStorage.rawData), this.cardId).render()));
     }
 
     getFamilyNode() {

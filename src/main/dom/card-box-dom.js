@@ -28,7 +28,7 @@ export default class CardBox extends BaseDOM {
     }
 
     render() {
-        let {avatarNode, infoNode, actionNode, toggleNode} = this.childrenNode;
+        let { avatarNode, infoNode, actionNode, toggleNode } = this.childrenNode;
         this.containerDOM.appendChild(avatarNode);
         this.containerDOM.appendChild(infoNode);
         this.containerDOM.appendChild(actionNode);
@@ -40,6 +40,7 @@ export default class CardBox extends BaseDOM {
 
             document.body.addEventListener("click", e => this.storeInformation(e));
         });
+        this.containerDOM.addEventListener("dblclick", () => this.domActions.changeRootCard());
         this.activateDnD();
 
         return this.containerDOM;

@@ -1,5 +1,6 @@
 
 import { getDepartments } from "../model/user-util"
+import DOMActions from "../action/dom-actions"
 
 export const createContainerByTagName = tagName => document.createElement(tagName);
 
@@ -106,4 +107,13 @@ export const handleDragEnd = (event, cardToBeDragged, isOver = true) => {
         cardToBeDragged.style.border = "2px solid #b5b5b5";
         document.getElementById("msg").innerHTML = isOver ? "" : "Drop in a card that you want to be its superior card.";
     }
+};
+
+export const  createPath = (id, username) => {
+    let pathDOM = document.createElement("a");
+    pathDOM.className = "path";
+    pathDOM.textContent = username;
+
+    pathDOM.addEventListener("click", () => (new DOMActions(id).changeRootCard()));
+    return pathDOM;
 };
