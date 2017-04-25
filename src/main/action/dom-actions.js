@@ -1,16 +1,13 @@
 import OrgChart from '../org-chart'
-import UserCard from '../model/user-card'
-import CardBoxDOM from '../dom/card-box-dom'
-import CardElementDOM from '../dom/card-element-dom'
-import CardContainerDOM from '../dom/card-container-dom'
+import { UserCard, getNewId } from '../model'
+import { CardBoxDOM, CardElementDOM, CardContainerDOM } from '../dom'
 import {
   addNewCard,
   deleteCardByCardId,
   updateInfoCard
-} from './user-actions'
-import { getNewId } from '../model/user-util'
+} from './index'
 
-export default class DOMActions {
+export class DOMActions {
 
   constructor (cardId) {
     this.cardId = cardId

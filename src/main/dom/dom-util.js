@@ -1,5 +1,5 @@
-import { getDepartments } from '../model/user-util'
-import DOMActions from '../action/dom-actions'
+import { getDepartments } from '../model'
+import { DOMActions } from '../action'
 
 export const createContainerByTagName = tagName => document.createElement(tagName)
 

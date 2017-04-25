@@ -1,7 +1,7 @@
+import { createContainerByTagName } from './index'
 import BaseDOM from './base-dom'
-import { createContainerByTagName } from './dom-util'
 
-export default class CardElementDOM extends BaseDOM {
+export class CardElementDOM extends BaseDOM {
 
   constructor (id, elementContentDOM, subCardContainerDOM) {
     super(createContainerByTagName('li'))

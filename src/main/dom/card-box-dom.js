@@ -1,5 +1,5 @@
+import { DOMActions, updateInfoCard } from '../action'
 import BaseDOM from './base-dom'
-import DOMActions from '../action/dom-actions'
 import {
   createContainerByTagName,
   createCommonContainer,
@@ -7,10 +7,9 @@ import {
   createCardInfoNodes,
   handleNodeToggle,
   handleDragEnd
-} from './dom-util'
-import { updateInfoCard } from '../action/user-actions'
+} from './index'
 
-export default class CardBox extends BaseDOM {
+export class CardBoxDOM extends BaseDOM {
 
   constructor (card) {
     super(createContainerByTagName('section'))
@@ -18,7 +17,7 @@ export default class CardBox extends BaseDOM {
     this.card = card
     this.domActions = new DOMActions(this.card.id)
     this.childrenNode = {
-      avatarNode: CardBox.buildAvatarNode(),
+      avatarNode: CardBoxDOM.buildAvatarNode(),
       infoNode: this.buildInfoNode(),
       actionNode: this.buildActionNode(),
       toggleNode: this.buildToggleNode()

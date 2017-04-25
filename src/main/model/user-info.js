@@ -1,4 +1,4 @@
-export default class UserInfo {
+export class UserInfo {
 
   constructor (firstName = '.........', lastName = '', title = '.........', department = '.........', project = '',
               avatar = 'avatar.png', employeeId = '.........') {
@@ -43,6 +43,9 @@ export default class UserInfo {
     return this.superiorId
   }
 
+  getParentId() {
+    return this.superiorId
+  }
   setParentId (value) {
     this.superiorId = value
   }

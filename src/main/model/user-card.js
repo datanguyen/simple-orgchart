@@ -1,6 +1,6 @@
-import UserInfo from './user-info'
+import { UserInfo } from './index'
 
-export default class UserCard {
+export class UserCard {
 
   constructor (id, ...userInfo) {
     this.userCardInfo = new UserInfo(...userInfo)
@@ -10,6 +10,10 @@ export default class UserCard {
 
   addParent (parent) {
     this.parent = parent
+  }
+
+  getParent () {
+    return this.parent
   }
 
   addSubCard (subCard) {

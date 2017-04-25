@@ -1,9 +1,11 @@
-import UserCard from './model/user-card'
-import CardContainerDOM from './dom/card-container-dom'
-import CardElementDOM from './dom/card-element-dom'
-import CardBoxDOM from './dom/card-box-dom'
-import { createContainerByTagName, createPath } from "./dom/dom-util"
-import { findFamilyById } from './model/user-util'
+import { UserCard, findFamilyById } from './model'
+import {
+  CardContainerDOM,
+  CardElementDOM,
+  CardBoxDOM,
+  createContainerByTagName,
+  createPath
+} from './dom'
 
 export default class OrgChart {
 
