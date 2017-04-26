@@ -1,4 +1,4 @@
-import { DOMActions, updateInfoCard } from '../action'
+import { DOMActions, updateInfoCard, updateData } from '../action'
 import BaseDOM from './base-dom'
 import {
   createContainerByTagName,
@@ -165,7 +165,8 @@ export class CardBoxDOM extends BaseDOM {
         })
 
       if (infoChangedByName.size !== 0) {
-        updateInfoCard(this.card.id, infoChangedByName)
+        let newData = updateInfoCard(this.card.id, infoChangedByName)
+        updateData(newData)
       }
     }
   }

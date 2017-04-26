@@ -1,5 +1,5 @@
-import { expect } from "chai"
-import { testData } from './data.test'
+import { expect } from 'chai'
+import { testData } from './test.data'
 import {
   UserInfo,
   UserCard,

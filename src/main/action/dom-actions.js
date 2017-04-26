@@ -4,7 +4,8 @@ import { CardBoxDOM, CardElementDOM, CardContainerDOM } from '../dom'
 import {
   addNewCard,
   deleteCardByCardId,
-  updateInfoCard
+  updateInfoCard,
+  updateData
 } from './index'
 
 export class DOMActions {
@@ -45,7 +46,8 @@ export class DOMActions {
     nextCardElement === null ? cardContainer.appendChild(newUserCardDOM.render())
       : cardContainer.insertBefore(newUserCardDOM.render(), nextCardElement)
 
-    addNewCard(newUserCard)
+    let newData = addNewCard(newUserCard)
+    updateData(newData);
   }
 
   addSubCard (alreadyHasChild) {
@@ -55,7 +57,8 @@ export class DOMActions {
     alreadyHasChild ? subCardsContainer.appendChild(newUserCardDOM.render())
       : cardElement.appendChild(newUserCardContainerDOM.render())
 
-    addNewCard(newUserCard)
+    let newData = addNewCard(newUserCard)
+    updateData(newData)
   }
 
   deleteCard() {
@@ -84,7 +87,8 @@ export class DOMActions {
 
     let valueChanged = new Map()
     valueChanged.set('superiorId', this.cardId)
-    updateInfoCard(parseInt(draggedCard.id), valueChanged)
+    let newData = updateInfoCard(parseInt(draggedCard.id), valueChanged)
+    updateData(newData)
   }
 
   changeRootCard () {

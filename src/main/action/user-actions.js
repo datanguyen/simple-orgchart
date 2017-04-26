@@ -12,7 +12,8 @@ export const addNewCard = (card, userData = JSON.parse(sessionStorage.rawData)) 
       id: parseInt(card.id)
     }
   )
-  updateData(userData)
+
+  return userData
 }
 
 export const deleteCardByCardId = (cardId, userData = JSON.parse(sessionStorage.rawData)) => {
@@ -38,7 +39,8 @@ export const updateInfoCard = (cardId, valueToBeChanged, userData = JSON.parse(s
       userData.find(user => user.id === cardId)[key] = value
     }
   }
-  updateData(userData)
+
+  return userData
 }
 
-const updateData = newData => sessionStorage.rawData = JSON.stringify(newData)
+export const updateData = newData => sessionStorage.rawData = JSON.stringify(newData)
