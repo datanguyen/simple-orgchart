@@ -4,3 +4,5 @@
 /build/
 *.lock
 *.log
+*.bundle.js
+*.bundle.js.map
