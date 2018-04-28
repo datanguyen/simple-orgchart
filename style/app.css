@@ -1,0 +1,70 @@
+@import "org-chart.css";
+@import "card.css";
+
+* {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    height: 100%;
+}
+
+.container {
+    display: flex;
+    display: -webkit-flex;
+    flex-wrap: wrap;
+}
+
+.container > * {
+    flex: 1 100%;
+    -webkit-flex: 1 100%;
+    -ms-flex: 1 100%;
+}
+
+.org-chart {
+    width: 100%;
+    overflow-x: scroll;
+    overflow-y: hidden;
+    margin-top: 40px;
+}
+
+.breadscumbs {
+    border: 1px solid #ccc;
+    background-color: #efefef;
+    height: auto;
+    font-size: 20px;
+    padding: 10px;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 10000000;
+}
+
+.root-path {
+    display: inline-block;
+    color: #14B1E7;
+}
+.sub-root {
+    display: inline-block;
+}
+
+.msg {
+    margin-right: 20px;
+    color: #4153f4;
+    float: right;
+    margin-top: 5px;
+}
+
+.path {
+    cursor: pointer;
+}
+
+.path:hover {
+    color: orangered;
+}
+
+.font-icon {
+    color: #14B1E7;
+    font-size: 30px;
+}
