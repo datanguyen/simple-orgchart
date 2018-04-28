@@ -3,7 +3,7 @@ module.exports = {
     app: './src/app.js'
   },
   output: {
-    path: __dirname + '/public',
+    path: __dirname + '/dist',
     filename: '[name].bundle.js'
   },
   devtool: 'source-map',
@@ -18,7 +18,7 @@ module.exports = {
     }]
   },
   devServer: {
-    contentBase: 'public',
+    contentBase: 'dist',
     host: "localhost",
     port: '3000'
   }
