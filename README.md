@@ -1,15 +1,12 @@
-# Nguyễn Tấn Đạt - ES6 - FCP
+## Organization Chart using ECMAScript 6
+Quick demo: [ntdatjoker.github.io/orgchart-js](https://ntdatjoker.github.io/orgchart-js)
+### Features
 
-ES6 and Beyond Technical Challenge
-----------
+### Development
+* Install dependencies: `npm install`
+* Dev mode: `npm run serve`
+* Build: `npm run build`
+* Test: `npm run test`
+* Test-Watch: `npm run test-watch`
 
-Pre-requisites: Node.js 4.x or later
-
-**Install Project Dependences:** ` npm install`
-
-**Run:** 
-  
--  **build:** `npm run build`
--  **run server**: `npm run serve`
--  **test**: `npm run test`
--  **test-watch**: `npm run test-watch`
+webpack-dev-server will be served at port 3000

@@ -1,6 +1,6 @@
 export class UserInfo {
 
-  constructor (firstName = '.........', lastName = '', title = '.........', department = '.........', project = '',
+  constructor(firstName = '.........', lastName = '', title = '.........', department = '.........', project = '',
               avatar = 'avatar.png', employeeId = '.........') {
     this.firstName = firstName
     this.lastName = lastName
@@ -11,46 +11,47 @@ export class UserInfo {
     this.employeeId = employeeId
   }
 
-  getFirstName () {
+  getFirstName() {
     return this.firstName
   }
 
-  getLastName () {
+  getLastName() {
     return this.lastName
   }
 
-  getTitle () {
+  getTitle() {
     return this.title
   }
 
-  getDepartment () {
+  getDepartment() {
     return this.department
   }
 
-  getProject () {
+  getProject() {
     return this.project
   }
 
-  getAvatar () {
+  getAvatar() {
     return this.avatar
   }
 
-  getEmployeeId () {
+  getEmployeeId() {
     return this.employeeId
   }
 
-  getSuperiorId () {
+  getSuperiorId() {
     return this.superiorId
   }
 
   getParentId() {
     return this.superiorId
   }
-  setParentId (value) {
+
+  setParentId(value) {
     this.superiorId = value
   }
 
-  getUsername () {
+  getUsername() {
     return `${this.firstName} ${this.lastName}`
   }
 }

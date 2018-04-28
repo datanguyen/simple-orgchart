@@ -11,7 +11,7 @@ import {
 
 export class CardBoxDOM extends BaseDOM {
 
-  constructor (card) {
+  constructor(card) {
     super(createContainerByTagName('section'))
     this.containerDOM.className = 'card'
     this.card = card
@@ -24,7 +24,7 @@ export class CardBoxDOM extends BaseDOM {
     }
   }
 
-  render () {
+  render() {
     let { avatarNode, infoNode, actionNode, toggleNode } = this.childrenNode
     this.containerDOM.appendChild(avatarNode)
     this.containerDOM.appendChild(infoNode)
@@ -36,14 +36,14 @@ export class CardBoxDOM extends BaseDOM {
       actionNode.style.display = 'initial'
 
       document.body.addEventListener('click', e => this.storeInformation(e))
-    });
+    })
     this.containerDOM.addEventListener('dblclick', () => this.domActions.changeRootCard())
     this.activateDnD()
 
     return this.containerDOM
   }
 
-  buildInfoNode () {
+  buildInfoNode() {
     let infoNode = createContainerByTagName('ul')
     let { usernameDOM, departmentDOM, employeeIdDOM, prefix } = createCardInfoNodes(this.card.userCardInfo.getUsername(),
       this.card.userCardInfo.getDepartment(), this.card.userCardInfo.getEmployeeId())
@@ -57,7 +57,7 @@ export class CardBoxDOM extends BaseDOM {
     return infoNode
   }
 
-  buildActionNode () {
+  buildActionNode() {
     let actionNode = createCommonContainer('card__action')
     let { editIcon, createPeerCardIcon, createSubCardIcon, deleteIcon } = createCardIcons()
 
@@ -83,7 +83,7 @@ export class CardBoxDOM extends BaseDOM {
     return actionNode
   }
 
-  buildToggleNode () {
+  buildToggleNode() {
     let toggleNode = createCommonContainer('card__toggle')
     let { plusIcon, minusIcon } = createCardIcons()
 
@@ -96,7 +96,7 @@ export class CardBoxDOM extends BaseDOM {
     return toggleNode
   }
 
-  activateDnD () {
+  activateDnD() {
     this.containerDOM.setAttribute('draggable', 'true')
     this.containerDOM.addEventListener('drag', () => this.containerDOM.style.border = '2px dashed blue')
     this.containerDOM.addEventListener('dragstart', (e) => e.dataTransfer.setData('id', this.card.id))
@@ -123,7 +123,7 @@ export class CardBoxDOM extends BaseDOM {
     })
   }
 
-  static buildAvatarNode () {
+  static buildAvatarNode() {
     let avaContainer = createCommonContainer('card__avatar')
 
     let avatar = document.createElement('img')
@@ -139,7 +139,7 @@ export class CardBoxDOM extends BaseDOM {
     return avaContainer
   }
 
-  storeInformation (e) {
+  storeInformation(e) {
     let { avatarNode, infoNode, actionNode, toggleNode } = this.childrenNode
 
     if (toggleNode.contains(e.target) || !this.containerDOM.contains(e.target)) {
@@ -154,7 +154,7 @@ export class CardBoxDOM extends BaseDOM {
           if (childNode === infoNode.lastChild) {
             return
           }
-          let {firstChild: label, lastChild: input} = childNode
+          let { firstChild: label, lastChild: input } = childNode
           label.style.display = 'initial'
           input.style.display = 'none'
 

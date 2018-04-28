@@ -9,21 +9,21 @@ import {
 
 export default class OrgChart {
 
-  constructor (data, requiredId = null) {
+  constructor(data, requiredId = null) {
     this.rawData = data
     this.rootCard = this.createRootCard(requiredId)
     this.cards = []
     this.buildCardTree(this.rootCard, this.cards)
   }
 
-  createRootCard (requiredId) {
+  createRootCard(requiredId) {
     if (requiredId === null) {
       return UserCard.mapRawDataToUserCard(this.rawData.find(user => user.superiorId === undefined))
     }
     return UserCard.mapRawDataToUserCard(this.rawData.find(user => user.id === requiredId))
   }
 
-  buildCardTree (card, cards) {
+  buildCardTree(card, cards) {
     if (card === undefined) {
       return
     }
@@ -40,7 +40,7 @@ export default class OrgChart {
       })
   }
 
-  createRootNode () {
+  createRootNode() {
     if (this.rootCard === undefined) {
       return
     }
@@ -58,16 +58,16 @@ export default class OrgChart {
     return rootContainer
   }
 
-  buildNodeByCard (card) {
+  buildNodeByCard(card) {
     if (card.getSubCards().length === 0) {
       return
     }
 
     return new CardContainerDOM(card.getSubCards()
-        .map(subCard => new CardElementDOM(subCard.id, new CardBoxDOM(subCard), this.buildNodeByCard(subCard))))
+      .map(subCard => new CardElementDOM(subCard.id, new CardBoxDOM(subCard), this.buildNodeByCard(subCard))))
   }
 
-  createBreadscumbs () {
+  createBreadscumbs() {
     let subRootPathContainer = document.getElementById('sub-root')
     subRootPathContainer.innerHTML = ''
     let familyPath = findFamilyById(this.rootCard.id)
@@ -78,8 +78,8 @@ export default class OrgChart {
     }
   }
 
-  render () {
-    this.createBreadscumbs();
-    return this.createRootNode();
+  render() {
+    this.createBreadscumbs()
+    return this.createRootNode()
   }
 }

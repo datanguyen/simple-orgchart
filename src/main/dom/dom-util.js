@@ -39,7 +39,7 @@ export const createCardInfoNodes = (username, department, employeeId) => {
 
   employeeIdDOM.setAttribute('href', '#')
   prefix.className = 'kms-prefix'
-  prefix.textContent = '@kms-technology.com'
+  prefix.textContent = '@gmail.com'
 
   return {
     usernameDOM,

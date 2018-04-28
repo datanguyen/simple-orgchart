@@ -3,7 +3,7 @@ import BaseDOM from './base-dom'
 
 export class CardElementDOM extends BaseDOM {
 
-  constructor (id, elementContentDOM, subCardContainerDOM) {
+  constructor(id, elementContentDOM, subCardContainerDOM) {
     super(createContainerByTagName('li'))
 
     this.containerDOM.className = 'org-chart__card-element'

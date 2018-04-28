@@ -10,11 +10,11 @@ import {
 
 export class DOMActions {
 
-  constructor (cardId) {
+  constructor(cardId) {
     this.cardId = cardId
   }
 
-  editCardInfo (infoNode, avatarNode) {
+  editCardInfo(infoNode, avatarNode) {
     let { firstChild: avatarFirstChild, lastChild: avatarLastChild } = avatarNode
 
     avatarLastChild.removeAttribute('disabled')
@@ -39,7 +39,7 @@ export class DOMActions {
       })
   }
 
-  addPeerCard () {
+  addPeerCard() {
     let { parentNode: cardContainer, nextSiblingNode: nextCardElement } = this.getFamilyNode()
     let { newUserCard, newUserCardDOM } = this.createNewUserCardDOM()
 
@@ -47,10 +47,10 @@ export class DOMActions {
       : cardContainer.insertBefore(newUserCardDOM.render(), nextCardElement)
 
     let newData = addNewCard(newUserCard)
-    updateData(newData);
+    updateData(newData)
   }
 
-  addSubCard (alreadyHasChild) {
+  addSubCard(alreadyHasChild) {
     let { currentNode: cardElement, lastChild: subCardsContainer } = this.getFamilyNode()
     let { newUserCard, newUserCardDOM, newUserCardContainerDOM } = this.createNewUserCardDOM(false)
 
@@ -67,7 +67,7 @@ export class DOMActions {
     deleteCardByCardId(this.cardId)
   }
 
-  dropCard (draggedCard, alreadyHasChild) {
+  dropCard(draggedCard, alreadyHasChild) {
     let { currentNode: cardElement, firstChild: cardBox, lastChild: subCardsContainer } = this.getFamilyNode()
 
     cardBox.style.border = '2px solid #b5b5b5'
@@ -91,13 +91,13 @@ export class DOMActions {
     updateData(newData)
   }
 
-  changeRootCard () {
+  changeRootCard() {
     let orgChartDOM = document.getElementById('orgChart')
     orgChartDOM.innerHTML = ''
     orgChartDOM.appendChild((new OrgChart(JSON.parse(sessionStorage.rawData), this.cardId).render()))
   }
 
-  getFamilyNode () {
+  getFamilyNode() {
     let currentNode = document.getElementById(this.cardId)
 
     return {
@@ -109,14 +109,14 @@ export class DOMActions {
     }
   }
 
-  createNewUserCardDOM (isPeerCard = true) {
+  createNewUserCardDOM(isPeerCard = true) {
     let { parentNode } = this.getFamilyNode()
 
     let newUserId = getNewId()
     let newUserCard = new UserCard(newUserId)
     let newParentId = isPeerCard ? parentNode.parentNode.id : this.cardId
 
-    newUserCard.addParent({id: newParentId})
+    newUserCard.addParent({ id: newParentId })
     newUserCard.userCardInfo.setParentId(newParentId)
     let newUserCardDOM = new CardElementDOM(newUserId.toString(), new CardBoxDOM(newUserCard))
 
