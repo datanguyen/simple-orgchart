@@ -14,11 +14,6 @@
   "keywords": [
     "ES6"
   ],
-  "author": "kms-technology",
-  "repository": {
-    "type": "git",
-    "url": "git@git.kms-technology.com:kms-training/fcp-javascript.git"
-  },
   "devDependencies": {
     "babel-core": "^6.13.2",
     "babel-loader": "^6.2.4",
