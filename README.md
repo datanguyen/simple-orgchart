@@ -1,5 +1,4 @@
 ## Organization Chart using ECMAScript 6
-Quick demo: [ntdatjoker.github.io/simple-orgchart](https://ntdatjoker.github.io/orgchart-js)
 ### Features
 
 * Render org chart based on given data
